@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0/*EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="statMapper">
+	<select id="selectCountStatus" resultType="com.thereal.domain.dto.StatusDTO">
+		select
+			c.status as status,
+			count(*) as count
+		from 
+			TB_CALLBACK as c
+		group by
+			c.status;
+	</select>
+	
+	<select id="selectCountCode" resultType="com.thereal.domain.dto.CodeDTO">
+		select
+			c.desc as code,
+			count(*) as count
+		from 
+			TB_CALLBACK as c
+		group by
+			c.desc
+		order by
+			FIELD(c.desc, 'Unknown', 'Success') desc;
+	</select>
+	
+	<select id="selectLmsCountCode" resultType="com.thereal.domain.dto.FailbackDTO">
+		select
+			IFNULL(c.failback_desc, 'Unknown') as code,
+			count(*) as count
+		from 
+			TB_CALLBACK as c
+		where
+			c.code != '0000'
+		group by
+			c.failback_desc
+		order by
+			FIELD(c.failback_desc, 'Success') desc;
+	</select>
+	
+	<select id="selectSubList" resultType="com.thereal.domain.dto.SubDTO">
+		SELECT 
+			DISTINCT(s.sub_id), 
+			s.`comment` 
+		FROM 
+			TB_CALLBACK AS c, 
+			TB_SUB_ID AS s 
+		WHERE 
+			c.sub_id=s.sub_id;
+	</select>
+	
+	<select id="selectCountCodeSub" resultType="com.thereal.domain.dto.CodeDTO">
+		select
+			c.desc as code,
+			count(*) as count
+		from 
+			TB_CALLBACK as c
+		where
+			c.sub_id=#{param}
+		group by
+			c.desc
+		order by
+			FIELD(c.desc, 'Unknown', 'Success') desc;
+	</select>
+	
+	<select id="selectLmsCountCodeSub" resultType="com.thereal.domain.dto.FailbackDTO">
+		select
+			IFNULL(c.failback_desc, 'Unknown') as code,
+			count(*) as count
+		from 
+			TB_CALLBACK as c
+		where
+			c.code != '0000' and
+			c.sub_id=#{param}
+		group by
+			c.failback_desc
+		order by
+			FIELD(c.failback_desc, 'Success') desc;
+	</select>
+</mapper>

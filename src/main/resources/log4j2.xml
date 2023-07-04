@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	
+	<Properties>
+		<Property name="layoutPattern">
+			%d{yyyy-MM-dd HH:mm:ss} [%-5p] : %l - %m%n
+		</Property>
+	</Properties>
+	
+	<Appenders>
+    	<!-- 콘솔 출력 방식 -->
+		<Console name="console-log" target="SYSTEM_OUT">
+			<PatternLayout pattern="${layoutPattern}" />
+		</Console>
+	</Appenders>
+	
+	<Loggers>
+		<Logger name="moniter.PrinterClient" level="DEBUG"></Logger>
+		<Root level="DEBUG">
+			<appender-ref ref="console-log" level="DEBUG" />
+		</Root>
+	</Loggers>
+</Configuration>

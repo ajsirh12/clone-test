@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0/*EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="adminMapper">
+	<select id="selectTest" resultType="map">
+		select
+			*
+		from 
+			TB_CALLBACK
+	</select>
+	
+	<select id="selectUser" resultType="string" parameterType="string">
+		/*
+			id="selectUser" resultType="string" parameterType="string"
+		*/
+		select
+			l.enc
+		from 
+			TB_LOGIN as l
+		where
+			l.user=#{user};
+	</select>
+	
+	<select id="selectPhoneList" resultType="com.thereal.domain.entity.PhoneEntity">
+		/*
+			id="selectPhoneList" resultType="com.thereal.domain.entity.PhoneEntity"
+		*/
+		select 
+			p.phone,
+			p.comment
+		from
+			TB_PHONE as p;
+	</select>
+	
+	<select id="selectChannelList" resultType="com.thereal.domain.entity.ChannelEntity">
+		/*
+			id="selectChannelList" resultType="com.thereal.domain.entity.ChannelEntity"
+		*/
+		select
+			c.seq,
+			c.channel_name,
+			c.sender_key
+		from 
+			TB_CHANNEL as c
+		order by
+			c.seq;
+	</select>
+	
+	<select id="selectTemplateList" resultType="com.thereal.domain.dto.TemplateDTO">
+		/*
+			id="selectTemplateList" resultType="com.thereal.domain.dto.TemplateDTO"
+		*/
+		select 
+			s.sub_id,
+			t.template_code,
+			c.channel_name as channel,
+			t.phone,
+			t.msg
+		from 
+			TB_SUB_ID as s,
+			TB_TEMPLATE AS t,
+			TB_CHANNEL AS c
+		where 
+			s.template_code = t.template_code and
+			t.channel_seq = c.seq;
+	</select>
+	
+	<insert id="insertPhone" parameterType="com.thereal.domain.vo.PhoneVO">
+		insert into
+			TB_PHONE(
+				phone,
+				comment
+			)
+			values(
+				#{phone},
+				#{comment}
+			)
+	</insert>
+	
+	<insert id="insertChannel" parameterType="com.thereal.domain.vo.ChannelVO">
+		insert into
+			TB_CHANNEL(
+				channel_name,
+				sender_key
+			)
+			values(
+				#{channel_name},
+				#{sender_key}
+			)
+	</insert>
+	
+	<insert id="insertSub" parameterType="com.thereal.domain.vo.TemplateVO">
+		insert into
+			TB_SUB_ID(
+				sub_id,
+				template_code,
+				comment
+			)
+			values(
+				#{sub_id},
+				#{template_code},
+				#{comment}
+			)
+	</insert>
+	
+	<insert id="insertTemplate" parameterType="com.thereal.domain.vo.TemplateVO">
+		insert into
+			TB_TEMPLATE(
+				template_code,
+				channel_seq,
+				msg,
+				phone,
+				comment
+			)
+			values(
+				#{template_code},
+				#{channel_name},
+				#{msg},
+				#{phone},
+				#{comment}
+			)
+	</insert>
+</mapper>

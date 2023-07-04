@@ -1,0 +1,37 @@
+@charset "UTF-8";
+
+.chart-size{
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+.chart-div{
+	width:50%;
+}
+
+.custom-span{
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin-right: 15px;
+	margin-top: 8px;
+	color: white;
+	text-align: right;
+}
+
+ul{
+	list-style: none;
+}
+
+.legend-list {
+	width:100%; 
+	height:200px; 
+	overflow: auto;
+}
+
+@media screen and (max-width: 767px) {
+		.chart-div {
+		width:100%;
+	}	
+}
