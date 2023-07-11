@@ -77,7 +77,7 @@
 	function getSubList(){
 		$.ajax({
 			type:"get",
-			url:"api/v1/statistics/sub-list.do",
+			url:"/api/v1/statistics/sub-list.do",
 			success:function(result){
 				console.log("{\"status\": " + result.status + ", \"timestamp\": \"" + result.timestamp + "\", \"function\":\"getSubList()\"}");
 				setSubList(result.datas);
@@ -117,7 +117,7 @@
 				
 				if(request.responseJSON.status == 401){
 					alert("세션이 만료되었습니다.");
-					location.href="/login";
+					location.href="/admin/login";
 				}
 			}	
 		});
@@ -137,7 +137,7 @@
 				console.log(error);
 				if(request.responseJSON.status == 401){
 					alert("세션이 만료되었습니다.");
-					location.href="/login";
+					location.href="/admin/login";
 				}
 			}	
 		});

@@ -27,10 +27,10 @@
 		const val = event.target.value;
 		
 		if(val == 001){
-			location.href="/template";
+			location.href="/admin/template";
 		}
 		else if(val == 002){
-			location.href="/statistic";
+			location.href="/admin/statistic";
 		}
 	};
 </script>

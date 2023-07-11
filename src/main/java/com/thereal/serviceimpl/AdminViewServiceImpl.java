@@ -1,8 +1,5 @@
 package com.thereal.serviceimpl;
 
-import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -14,19 +11,20 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.thereal.dao.AdminDAO;
 import com.thereal.service.AdminViewService;
-import com.thereal.util.LoginUtil;
 
 @Service("adminViewService")
 public class AdminViewServiceImpl implements AdminViewService{
 
 	private static final Logger logger = LogManager.getLogger(AdminServiceImpl.class);
-	private static final String redirect_main = "redirect:/main";
-	private static final String redirect_login = "redirect:/login";
+	private static final String redirect_main = "redirect:/admin/main";
+	private static final String redirect_login = "redirect:/admin/login";
+	
 	@Autowired AdminDAO adminDAO;
+	@Autowired LoginServiceImpl loginService;
 
 	@Override
 	public ModelAndView getLogin(HttpServletRequest request, HttpSession session) {
-		if(LoginUtil.isLogin(session)) {
+		if(loginService.isLogin(session)) {
 			return new ModelAndView(redirect_main);
 		}
 		return new ModelAndView("home/login");
@@ -34,7 +32,7 @@ public class AdminViewServiceImpl implements AdminViewService{
 
 	@Override
 	public ModelAndView getMain(HttpServletRequest request, HttpSession session) {
-		if(!LoginUtil.isLogin(session)) {
+		if(!loginService.isLogin(session)) {
 			return new ModelAndView(redirect_login);
 		}
 		return new ModelAndView("home/main");
@@ -42,7 +40,7 @@ public class AdminViewServiceImpl implements AdminViewService{
 
 	@Override
 	public ModelAndView getTemplate(HttpServletRequest request, HttpSession session) {
-		if(!LoginUtil.isLogin(session)) {
+		if(!loginService.isLogin(session)) {
 			return new ModelAndView(redirect_login);
 		}
 		return new ModelAndView("home/template");
@@ -50,9 +48,17 @@ public class AdminViewServiceImpl implements AdminViewService{
 
 	@Override
 	public ModelAndView getStatistic(HttpServletRequest request, HttpSession session) {
-		if(!LoginUtil.isLogin(session)) {
+		if(!loginService.isLogin(session)) {
 			return new ModelAndView(redirect_login);
 		}
 		return new ModelAndView("home/statistic");
+	}
+	
+	@Override
+	public ModelAndView getRegist(HttpServletRequest request, HttpSession session) {
+		if(!loginService.isLogin(session)) {
+			return new ModelAndView(redirect_login);
+		}
+		return new ModelAndView("home/regist");
 	}
 }

@@ -1,4 +1,4 @@
-package com.thereal.domain.dto;
+package com.thereal.model.dto;
 
 import lombok.Getter;
 

@@ -18,6 +18,7 @@ body {
 	position : absolute; 
 	overflow-y: scroll; 
 	overflow-x : hidden;
+	padding-top: 5%;
 }
 .wrap_none_scroll {
 	overflow-y : hidden;

@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.thereal.domain.vo.ChannelVO;
-import com.thereal.domain.vo.PhoneVO;
-import com.thereal.domain.vo.TemplateVO;
+import com.thereal.model.vo.ChannelVO;
+import com.thereal.model.vo.PhoneVO;
+import com.thereal.model.vo.TemplateVO;
 import com.thereal.serviceimpl.AdminServiceImpl;
 
 @Controller

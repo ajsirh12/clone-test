@@ -1,15 +1,13 @@
-package com.thereal.domain.dto;
+package com.thereal.model.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CodeDTO {
-	private String code;
-	private int count;
+public class PhoneEntity {
+	private String phone;
+	private String comment;
 }

@@ -23,9 +23,9 @@
 			l.user=#{user};
 	</select>
 	
-	<select id="selectPhoneList" resultType="com.thereal.domain.entity.PhoneEntity">
+	<select id="selectPhoneList" resultType="com.thereal.model.entity.PhoneEntity">
 		/*
-			id="selectPhoneList" resultType="com.thereal.domain.entity.PhoneEntity"
+			id="selectPhoneList" resultType="com.thereal.model.entity.PhoneEntity"
 		*/
 		select 
 			p.phone,
@@ -34,9 +34,9 @@
 			TB_PHONE as p;
 	</select>
 	
-	<select id="selectChannelList" resultType="com.thereal.domain.entity.ChannelEntity">
+	<select id="selectChannelList" resultType="com.thereal.model.entity.ChannelEntity">
 		/*
-			id="selectChannelList" resultType="com.thereal.domain.entity.ChannelEntity"
+			id="selectChannelList" resultType="com.thereal.model.entity.ChannelEntity"
 		*/
 		select
 			c.seq,
@@ -48,9 +48,9 @@
 			c.seq;
 	</select>
 	
-	<select id="selectTemplateList" resultType="com.thereal.domain.dto.TemplateDTO">
+	<select id="selectTemplateList" resultType="com.thereal.model.dto.TemplateDTO">
 		/*
-			id="selectTemplateList" resultType="com.thereal.domain.dto.TemplateDTO"
+			id="selectTemplateList" resultType="com.thereal.model.dto.TemplateDTO"
 		*/
 		select 
 			s.sub_id,
@@ -67,7 +67,7 @@
 			t.channel_seq = c.seq;
 	</select>
 	
-	<insert id="insertPhone" parameterType="com.thereal.domain.vo.PhoneVO">
+	<insert id="insertPhone" parameterType="com.thereal.model.vo.PhoneVO">
 		insert into
 			TB_PHONE(
 				phone,
@@ -79,7 +79,7 @@
 			)
 	</insert>
 	
-	<insert id="insertChannel" parameterType="com.thereal.domain.vo.ChannelVO">
+	<insert id="insertChannel" parameterType="com.thereal.model.vo.ChannelVO">
 		insert into
 			TB_CHANNEL(
 				channel_name,
@@ -91,7 +91,7 @@
 			)
 	</insert>
 	
-	<insert id="insertSub" parameterType="com.thereal.domain.vo.TemplateVO">
+	<insert id="insertSub" parameterType="com.thereal.model.vo.TemplateVO">
 		insert into
 			TB_SUB_ID(
 				sub_id,
@@ -105,7 +105,7 @@
 			)
 	</insert>
 	
-	<insert id="insertTemplate" parameterType="com.thereal.domain.vo.TemplateVO">
+	<insert id="insertTemplate" parameterType="com.thereal.model.vo.TemplateVO">
 		insert into
 			TB_TEMPLATE(
 				template_code,
@@ -122,4 +122,22 @@
 				#{comment}
 			)
 	</insert>
+	
+	<update id="updateToken" parameterType="com.thereal.model.dto.TokenDTO">
+		update 
+			TB_LOGIN
+		set
+			token=#{token}
+		where
+			user=#{user}
+	</update>
+	
+	<select id="isLogin" parameterType="string" resultType="int">
+		select
+			count(*)
+		from
+			TB_LOGIN
+		where
+			token=#{token}
+	</select>
 </mapper>

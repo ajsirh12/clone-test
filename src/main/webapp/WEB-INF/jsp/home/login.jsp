@@ -40,7 +40,7 @@
 			data:{user:user, pwd:pwd},
 			success:function(result){
 				console.log(result);
-				location.href="/main";
+				location.href="/admin/main";
 			},
 			error:function(request, status, error){
 				console.log(request.responseText);

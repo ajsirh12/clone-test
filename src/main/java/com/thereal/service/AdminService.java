@@ -5,9 +5,9 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.ResponseEntity;
 
-import com.thereal.domain.vo.ChannelVO;
-import com.thereal.domain.vo.PhoneVO;
-import com.thereal.domain.vo.TemplateVO;
+import com.thereal.model.vo.ChannelVO;
+import com.thereal.model.vo.PhoneVO;
+import com.thereal.model.vo.TemplateVO;
 
 public interface AdminService {
 	public ResponseEntity postLogin(HttpServletRequest request, HttpSession session);

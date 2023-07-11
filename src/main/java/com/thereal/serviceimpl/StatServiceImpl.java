@@ -15,9 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.thereal.dao.StatDAO;
-import com.thereal.domain.dto.CodeDTO;
-import com.thereal.domain.dto.FailbackDTO;
-import com.thereal.domain.dto.SubDTO;
+import com.thereal.model.dto.CodeDTO;
+import com.thereal.model.dto.FailbackDTO;
+import com.thereal.model.dto.SubDTO;
 import com.thereal.service.StatService;
 import com.thereal.util.LoginUtil;
 import com.thereal.util.ResponseHttp;
@@ -28,12 +28,13 @@ public class StatServiceImpl implements StatService {
 	private static final Logger logger = LogManager.getLogger(StatServiceImpl.class);
 	
 	@Autowired StatDAO statDAO;
-
+	@Autowired LoginServiceImpl loginService;
+	
 	@Override
 	public ResponseEntity selectTotal(HttpServletRequest request, HttpSession session) {
 		Map<String, Object> resMessage = new HashMap<String, Object>();
 		
-		if(!LoginUtil.isLogin(session)) {
+		if(!loginService.isLogin(session)) {
 			return ResponseHttp.status(resMessage, HttpStatus.UNAUTHORIZED);
 		}
 		
@@ -53,7 +54,7 @@ public class StatServiceImpl implements StatService {
 	public ResponseEntity selectCountStatics(HttpServletRequest request, HttpSession session) {
 		Map<String, Object> resMessage = new HashMap<String, Object>();
 		
-		if(!LoginUtil.isLogin(session)) {
+		if(!loginService.isLogin(session)) {
 			return ResponseHttp.status(resMessage, HttpStatus.UNAUTHORIZED);
 		}
 		
@@ -82,7 +83,7 @@ public class StatServiceImpl implements StatService {
 	public ResponseEntity selectSubList(HttpServletRequest request, HttpSession session) {
 		Map<String, Object> resMessage = new HashMap<String, Object>();
 		
-		if(!LoginUtil.isLogin(session)) {
+		if(!loginService.isLogin(session)) {
 			return ResponseHttp.status(resMessage, HttpStatus.UNAUTHORIZED);
 		}
 		
@@ -103,7 +104,7 @@ public class StatServiceImpl implements StatService {
 	public ResponseEntity selectCountStat(HttpServletRequest request, HttpSession session, String param) {
 		Map<String, Object> resMessage = new HashMap<String, Object>();
 		
-		if(!LoginUtil.isLogin(session)) {
+		if(!loginService.isLogin(session)) {
 			return ResponseHttp.status(resMessage, HttpStatus.UNAUTHORIZED);
 		}
 		

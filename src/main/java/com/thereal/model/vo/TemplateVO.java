@@ -1,4 +1,4 @@
-package com.thereal.domain.vo;
+package com.thereal.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.thereal.serviceimpl.AdminViewServiceImpl;
 
 @Controller
+@RequestMapping(value = "/admin")
 public class AdminViewController {
 	
 	private static final Logger logger = LogManager.getLogger(AdminViewController.class);
@@ -54,5 +55,11 @@ public class AdminViewController {
 	public ModelAndView getStatistic(HttpServletRequest request, HttpSession session) {
 		logger.debug("========== getStatistic ==========");
 		return adminViewService.getStatistic(request, session);
+	}
+	
+	@RequestMapping(value = "/regist", method = RequestMethod.GET)
+	public ModelAndView getRegist(HttpServletRequest request, HttpSession session) {
+		logger.debug("========== getRegist ==========");
+		return adminViewService.getRegist(request, session);
 	}
 }

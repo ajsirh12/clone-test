@@ -9,12 +9,13 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.thereal.domain.dto.TemplateDTO;
-import com.thereal.domain.entity.ChannelEntity;
-import com.thereal.domain.entity.PhoneEntity;
-import com.thereal.domain.vo.ChannelVO;
-import com.thereal.domain.vo.PhoneVO;
-import com.thereal.domain.vo.TemplateVO;
+import com.thereal.model.dto.TemplateDTO;
+import com.thereal.model.dto.TokenDTO;
+import com.thereal.model.entity.ChannelEntity;
+import com.thereal.model.entity.PhoneEntity;
+import com.thereal.model.vo.ChannelVO;
+import com.thereal.model.vo.PhoneVO;
+import com.thereal.model.vo.TemplateVO;
 import com.thereal.util.SqlSessionSelector;
 
 @Repository("adminDAO")
@@ -73,5 +74,14 @@ public class AdminDAO {
 	public int insertTemplate(TemplateVO vo) {
 		init();
 		return sqlSession.insert(namespace + ".insertTemplate", vo);
+	}
+	
+	public int updateToken(TokenDTO dto) {
+		init();
+		return sqlSession.update(namespace + ".updateToken", dto);
+	}
+	public int isLogin(String token) {
+		init();
+		return sqlSession.selectOne(namespace + ".isLogin", token);
 	}
 }

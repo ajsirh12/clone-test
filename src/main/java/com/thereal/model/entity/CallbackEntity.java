@@ -1,4 +1,4 @@
-package com.thereal.domain.entity;
+package com.thereal.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

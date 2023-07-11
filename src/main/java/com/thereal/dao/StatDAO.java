@@ -8,10 +8,10 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.thereal.domain.dto.CodeDTO;
-import com.thereal.domain.dto.FailbackDTO;
-import com.thereal.domain.dto.StatusDTO;
-import com.thereal.domain.dto.SubDTO;
+import com.thereal.model.dto.CodeDTO;
+import com.thereal.model.dto.FailbackDTO;
+import com.thereal.model.dto.StatusDTO;
+import com.thereal.model.dto.SubDTO;
 import com.thereal.util.SqlSessionSelector;
 
 @Repository("statDAO")

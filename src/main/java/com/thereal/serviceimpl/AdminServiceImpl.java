@@ -14,9 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.thereal.dao.AdminDAO;
-import com.thereal.domain.vo.ChannelVO;
-import com.thereal.domain.vo.PhoneVO;
-import com.thereal.domain.vo.TemplateVO;
+import com.thereal.model.dto.TokenDTO;
+import com.thereal.model.vo.ChannelVO;
+import com.thereal.model.vo.PhoneVO;
+import com.thereal.model.vo.TemplateVO;
 import com.thereal.service.AdminService;
 import com.thereal.util.LoginUtil;
 import com.thereal.util.ResponseHttp;
@@ -27,6 +28,7 @@ public class AdminServiceImpl implements AdminService {
 	private static final Logger logger = LogManager.getLogger(AdminServiceImpl.class);
 	
 	@Autowired AdminDAO adminDAO;
+	@Autowired LoginServiceImpl loginService;
 	
 	@Override
 	public ResponseEntity postLogin(HttpServletRequest request, HttpSession session) {
@@ -47,8 +49,13 @@ public class AdminServiceImpl implements AdminService {
 		
 		try {
 			if(LoginUtil.doLogin(user, pwd, enc)) {
-				session.setAttribute("key01", user);
-				session.setAttribute("key02", enc);
+				String hash = LoginUtil.getHash(user);
+				logger.debug(hash);
+				TokenDTO tokenDTO = TokenDTO.builder().user(user).token(hash).build();
+				loginService.updateToken(tokenDTO);
+				
+				session.setAttribute("key01", hash);
+				session.setMaxInactiveInterval(900);
 				return ResponseHttp.ok(resMessage);
 			}
 			else {
@@ -65,7 +72,7 @@ public class AdminServiceImpl implements AdminService {
 	public ResponseEntity getPhoneList(HttpServletRequest request, HttpSession session) {
 		Map<String, Object> resMessage = new HashMap<String, Object>();
 		
-		if(!LoginUtil.isLogin(session)) {
+		if(!loginService.isLogin(session)) {
 			return ResponseHttp.status(resMessage, HttpStatus.UNAUTHORIZED);
 		}
 		
@@ -87,7 +94,7 @@ public class AdminServiceImpl implements AdminService {
 	public ResponseEntity postPhoneList(HttpServletRequest request, HttpSession session, PhoneVO vo) {
 		Map<String, Object> resMessage = new HashMap<String, Object>();
 		
-		if(!LoginUtil.isLogin(session)) {
+		if(!loginService.isLogin(session)) {
 			return ResponseHttp.status(resMessage, HttpStatus.UNAUTHORIZED);
 		}
 		
@@ -110,7 +117,7 @@ public class AdminServiceImpl implements AdminService {
 	public ResponseEntity getChannelList(HttpServletRequest request, HttpSession session) {
 		Map<String, Object> resMessage = new HashMap<String, Object>();
 		
-		if(!LoginUtil.isLogin(session)) {
+		if(!loginService.isLogin(session)) {
 			return ResponseHttp.status(resMessage, HttpStatus.UNAUTHORIZED);
 		}
 		try {
@@ -131,7 +138,7 @@ public class AdminServiceImpl implements AdminService {
 	public ResponseEntity postChannelList(HttpServletRequest request, HttpSession session, ChannelVO vo) {
 		Map<String, Object> resMessage = new HashMap<String, Object>();
 		
-		if(!LoginUtil.isLogin(session)) {
+		if(!loginService.isLogin(session)) {
 			return ResponseHttp.status(resMessage, HttpStatus.UNAUTHORIZED);
 		}
 		logger.debug(vo.toString());
@@ -153,7 +160,7 @@ public class AdminServiceImpl implements AdminService {
 	public ResponseEntity getTemplateList(HttpServletRequest request, HttpSession session) {
 		Map<String, Object> resMessage = new HashMap<String, Object>();
 		
-		if(!LoginUtil.isLogin(session)) {
+		if(!loginService.isLogin(session)) {
 			return ResponseHttp.status(resMessage, HttpStatus.UNAUTHORIZED);
 		}
 		try {
@@ -171,7 +178,7 @@ public class AdminServiceImpl implements AdminService {
 	public ResponseEntity postTemplateList(HttpServletRequest request, HttpSession session, TemplateVO vo) {
 		Map<String, Object> resMessage = new HashMap<String, Object>();
 		
-		if(!LoginUtil.isLogin(session)) {
+		if(!loginService.isLogin(session)) {
 			return ResponseHttp.status(resMessage, HttpStatus.UNAUTHORIZED);
 		}
 		

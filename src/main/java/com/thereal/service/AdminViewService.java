@@ -10,4 +10,6 @@ public interface AdminViewService {
 	public ModelAndView getMain(HttpServletRequest request, HttpSession session);
 	public ModelAndView getTemplate(HttpServletRequest request, HttpSession session);
 	public ModelAndView getStatistic(HttpServletRequest request, HttpSession session);
+	
+	ModelAndView getRegist(HttpServletRequest request, HttpSession session);
 }
