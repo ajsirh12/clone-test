@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.thereal.constant.PageView;
+import com.thereal.constant.Redirect;
 import com.thereal.dao.AdminDAO;
 import com.thereal.service.AdminViewService;
 
@@ -16,8 +18,6 @@ import com.thereal.service.AdminViewService;
 public class AdminViewServiceImpl implements AdminViewService{
 
 	private static final Logger logger = LogManager.getLogger(AdminServiceImpl.class);
-	private static final String redirect_main = "redirect:/admin/main";
-	private static final String redirect_login = "redirect:/admin/login";
 	
 	@Autowired AdminDAO adminDAO;
 	@Autowired LoginServiceImpl loginService;
@@ -25,40 +25,40 @@ public class AdminViewServiceImpl implements AdminViewService{
 	@Override
 	public ModelAndView getLogin(HttpServletRequest request, HttpSession session) {
 		if(loginService.isLogin(session)) {
-			return new ModelAndView(redirect_main);
+			return new ModelAndView(Redirect.ADMIN_MAIN.getValue());
 		}
-		return new ModelAndView("home/login");
+		return new ModelAndView(PageView.HOME_LOGIN.getValue());
 	}
 
 	@Override
 	public ModelAndView getMain(HttpServletRequest request, HttpSession session) {
 		if(!loginService.isLogin(session)) {
-			return new ModelAndView(redirect_login);
+			return new ModelAndView(Redirect.ADMIN_LOGIN.getValue());
 		}
-		return new ModelAndView("home/main");
+		return new ModelAndView(PageView.HOME_MAIN.getValue());
 	}
 
 	@Override
 	public ModelAndView getTemplate(HttpServletRequest request, HttpSession session) {
 		if(!loginService.isLogin(session)) {
-			return new ModelAndView(redirect_login);
+			return new ModelAndView(Redirect.ADMIN_LOGIN.getValue());
 		}
-		return new ModelAndView("home/template");
+		return new ModelAndView(PageView.HOME_TEMPLATE.getValue());
 	}
 
 	@Override
 	public ModelAndView getStatistic(HttpServletRequest request, HttpSession session) {
 		if(!loginService.isLogin(session)) {
-			return new ModelAndView(redirect_login);
+			return new ModelAndView(Redirect.ADMIN_LOGIN.getValue());
 		}
-		return new ModelAndView("home/statistic");
+		return new ModelAndView(PageView.HOME_STATISTIC.getValue());
 	}
 	
 	@Override
 	public ModelAndView getRegist(HttpServletRequest request, HttpSession session) {
 		if(!loginService.isLogin(session)) {
-			return new ModelAndView(redirect_login);
+			return new ModelAndView(Redirect.ADMIN_LOGIN.getValue());
 		}
-		return new ModelAndView("home/regist");
+		return new ModelAndView(PageView.HOME_REGIST.getValue());
 	}
 }
