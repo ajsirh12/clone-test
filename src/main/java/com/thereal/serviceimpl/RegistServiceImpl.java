@@ -15,7 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.thereal.dao.RegistDAO;
+import com.thereal.model.dto.ButtonDTO;
 import com.thereal.model.dto.ChannelKeyDTO;
+import com.thereal.model.dto.PhoneDTO;
 import com.thereal.service.RegistService;
 import com.thereal.util.ResponseHttp;
 
@@ -40,7 +42,33 @@ public class RegistServiceImpl implements RegistService {
 		List<ChannelKeyDTO> channelList = registDAO.ajaxChannels();
 		resMessage.put("channelList", channelList);
 		
-		logger.debug("resMessage ::: " + resMessage);
+		return ResponseHttp.ok(resMessage);
+	}
+	
+	@Override
+	public ResponseEntity ajaxPhones(HttpServletRequest request, HttpSession session) {
+		Map<String, Object> resMessage = new HashMap<String, Object>();
+		
+		if(!loginService.isLogin(session)) {
+			return ResponseHttp.status(resMessage, HttpStatus.UNAUTHORIZED);
+		}
+
+		List<PhoneDTO> phoneList = registDAO.ajaxPhones();
+		resMessage.put("phoneList", phoneList);
+		
+		return ResponseHttp.ok(resMessage);
+	}
+	
+	@Override
+	public ResponseEntity ajaxButtons(HttpServletRequest request, HttpSession session) {
+		Map<String, Object> resMessage = new HashMap<String, Object>();
+		
+		if(!loginService.isLogin(session)) {
+			return ResponseHttp.status(resMessage, HttpStatus.UNAUTHORIZED);
+		}
+
+		List<ButtonDTO> btnList = registDAO.ajaxButtons();
+		resMessage.put("btnList", btnList);
 		
 		return ResponseHttp.ok(resMessage);
 	}

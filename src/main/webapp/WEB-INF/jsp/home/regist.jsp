@@ -28,41 +28,124 @@
 					</div>
 					<div class="row mb-3">
 						<div class="col-3">
-							<input type="text" class="form-control" id="channel" name="channel" disabled="disabled" placeholder="@채널">
+							<input type="text" class="form-control" id="channel" name="channel" disabled="disabled" placeholder="@Channel Name">
 						</div>
 						<div class="col-9">
-							<input type="text" class="form-control" id="sender-key" name="sender-key" disabled="disabled" placeholder="센더키">
+							<input type="text" class="form-control" id="sender-key" name="sender-key" disabled="disabled" placeholder="Sender Key">
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col">
-					<label for="formGroupExampleInput" class="form-label"><b>다음</b></label>
+					<label for="formGroupExampleInput" class="form-label"><b>발신자번호</b></label>
 					<div class="row mb-3">
 						<div class="col">
-							1
+							<select id="phone-select" class="form-select">
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<label for="formGroupExampleInput" class="form-label"><b>템플릿</b></label>
+					<div class="row mb-3">
+						<div class="col">
+							<input type="text" class="form-control" id="template-code" name="template-code" placeholder="Template Code">
 						</div>
 					</div>
 					<div class="row mb-3">
-						<div class="col-3">
-							2
-						</div>
-						<div class="col-9">
-							3
+						<div class="col">
+							<input type="text" class="form-control" id="lms-title" name="lms-title" placeholder="LMS Title">
 						</div>
 					</div>
+					<div class="row mb-3">
+						<div class="col">
+							<textarea class="form-control" id="template-msg" name="template-msg" placeholder="Template Message" style="height: 200px;"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col" id="btn-div">
+					<label for="formGroupExampleInput" class="form-label"><b>버튼 </b><button class="btn btn-outline-primary btn-sm" onclick="addBtn();"> + </button></label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<label for="formGroupExampleInput" class="form-label"><b>추가 설명</b></label>
+					<div class="row mb-3">
+						<div class="col">
+							<textarea class="form-control" id="comment" name="comment" placeholder="Comment" style="height: 200px;"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col text-center">
+					<button class="btn btn-primary" onclick="regist();">등록</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 <script type="text/javascript">
+	let btnList = new Array();
+	
 	window.onload = function(){
-		console.log("hello");
 		getChannelList();
+		getPhoneList();
+		getBtnList();
 	};
 
+	function regist(){
+		let jsonData;
+		let object = new Object();
+		
+		let channel = document.querySelector("#channel");
+		let senderKey = document.querySelector("#sender-key");
+		let phone = document.querySelector("#phone-select");
+		let templateCode = document.querySelector("#template-code");
+		let templateMsg = document.querySelector("#template-msg");
+		let lmsTitle = document.querySelector("#lms-title");
+		let comment = document.querySelector("#comment");
+		
+		let btnList = new Array();
+		let btnTitle = document.querySelectorAll(".btn-title");
+		let btnMsg = document.querySelectorAll(".btn-msg");
+		let status = document.querySelectorAll(".status");
+		for(let i=0;i<btnTitle.length; i++){
+			console.log(btnTitle[i].value + " : " + btnMsg[i].value);
+			let temp = {'name':btnTitle[i].value, 'url':btnMsg[i].value, 'status':status[i].value};
+			btnList.push(temp);
+		}
+		
+		object.channelName = channel.value;
+		object.senderKey = senderKey.value;
+		object.phone = phone.value;
+		object.templateCode = templateCode.value;
+		object.lmsTitle= lmsTitle.value;
+		object.msg = templateMsg.value;
+		object.comment = comment.value;
+		object.btnList = btnList;
+		jsonData = JSON.stringify(object);
+		
+		$.ajax({
+			type:"post",
+			url:"/ajax/regist",
+			contentType: "application/json",
+			data:jsonData,
+			success:function(result){
+				// location.href="/admin/regist";
+			},
+			error:function(request, status, error){
+				console.log(request.responseText);
+				console.log(error);
+			}		
+		});
+	};
+	
 	function getChannelList(){
 		console.log("channelList");
 		
@@ -108,7 +191,7 @@
 		optionNew.setAttribute("value", "new");
 		optionNew.innerHTML = "신규 채널"
 		channelSelect.appendChild(optionNew);
-	}
+	};
 	
 	function channel(){
 		let channelSelect = document.querySelector("#channel-select");
@@ -141,6 +224,188 @@
 			senderKey.setAttribute("disabled", "disabled");
 		}
 	};
+	
+	function getPhoneList(){
+		console.log("phoneList");
+		
+		$.ajax({
+			type:"post",
+			url:"/ajax/phones",
+			success:function(result){
+				setPhoneList(result.phoneList);
+			},
+			error:function(request, status, error){
+				console.log(request.responseText);
+				console.log(error);
+			}		
+		});
+	};
+	function setPhoneList(result){
+		let phoneSelect = document.querySelector("#phone-select");
+		
+		let optionStart = document.createElement("option");
+		optionStart.setAttribute("hidden", "hidden");
+		optionStart.setAttribute("selected", "selected");
+		optionStart.innerHTML = "Select Phone";
+		phoneSelect.appendChild(optionStart);
+		
+		for(let i=0; i<result.length; i++){
+			let option = document.createElement("option");
+			option.setAttribute("value", result[i].phone);
+			option.innerHTML = result[i].phone;
+			phoneSelect.appendChild(option);
+		}
+	};
+	
+	function addBtn(){
+		let btnDiv = document.querySelector("#btn-div");
+		
+		let row20 = document.createElement("div");
+		row20.setAttribute("class", "row mb-3 rowrow");
+		
+		let row10 = document.createElement("div");
+		row10.setAttribute("class", "row mb-3");
+		
+		let col10 = document.createElement("div");
+		col10.setAttribute("class", "col");
+		let select = setBtnBox();
+		
+		col10.appendChild(select);
+		row10.appendChild(col10);
+		btnDiv.appendChild(row10);
+		
+		let row00 = document.createElement("div");
+		row00.setAttribute("class", "row mb-3");
+		
+		let col01 = document.createElement("div");
+		col01.setAttribute("class", "col-3");
+		
+		let title = document.createElement("input");
+		title.setAttribute("class", "form-control btn-title");
+		title.setAttribute("type", "text");
+		title.setAttribute("name", "btn-title");
+		title.setAttribute("placeholder", "Button Title");
+		title.setAttribute("disabled", "disabled");
+		col01.appendChild(title);
+		
+		let col02 = document.createElement("div");
+		col02.setAttribute("class", "col-8");
+		
+		let msg = document.createElement("input");
+		msg.setAttribute("class", "form-control btn-msg");
+		msg.setAttribute("type", "text");
+		msg.setAttribute("name", "btn-msg");
+		msg.setAttribute("placeholder", "Button Message");
+		msg.setAttribute("disabled", "disabled");
+		col02.appendChild(msg);
+		
+		let col03 = document.createElement("div");
+		col03.setAttribute("class", "col-1");
+		let remove = document.createElement("button");
+		remove.setAttribute("class", "btn btn-outline-danger btn-sm");
+		remove.setAttribute("onclick", "removeBtn(event)");
+		remove.innerHTML = "-";
+		col03.appendChild(remove);
+		
+		let hidden = document.createElement("input");
+		hidden.setAttribute("type", "text");
+		hidden.setAttribute("style", "display: none;");
+		hidden.setAttribute("class", "status");
+		
+		row00.appendChild(col01);
+		row00.appendChild(col02);
+		row00.appendChild(col03);
+		row00.appendChild(hidden);
+		
+		row20.appendChild(row10);
+		row20.appendChild(row00);
+		
+		btnDiv.appendChild(row20);
+	};
+	function getBtnList(){
+		console.log("btnList");
+		
+		$.ajax({
+			type:"post",
+			url:"/ajax/buttons",
+			success:function(result){
+				btnList = result.btnList;
+			},
+			error:function(request, status, error){
+				console.log(request.responseText);
+				console.log(error);
+			}		
+		});
+	};
+	function setBtnBox(){
+		let select = document.createElement("select");
+		select.setAttribute("class", "form-select");
+		select.setAttribute("onchange", "button(event)");
+		
+		let optionStart = document.createElement("option");
+		optionStart.setAttribute("hidden", "hidden");
+		optionStart.setAttribute("selected", "selected");
+		optionStart.innerHTML = "Select Phone";
+		select.appendChild(optionStart);
+		
+		for(let i=0; i<btnList.length; i++){
+			let option = document.createElement("option");
+			option.setAttribute("id", btnList[i].name);
+			option.setAttribute("value", btnList[i].url_mobile);
+			option.innerHTML = btnList[i].name;
+			select.appendChild(option);
+		}
+		
+		let optionNew = document.createElement("option");
+		optionNew.setAttribute("value", "new");
+		optionNew.innerHTML = "신규 버튼"
+		select.appendChild(optionNew);
+		
+		return select;
+	};
+	function button(event) {
+		const selectedValue = event.target.value;
+		const selectedId = event.target.options[event.target.selectedIndex].id;
+		
+		console.log(event.target.options[event.target.selectedIndex].value);
+		
+		const btnTitleInput = event.target.closest(".row").nextElementSibling.querySelector(".btn-title");
+		const btnMsgInput = event.target.closest(".row").nextElementSibling.querySelector(".btn-msg");
+		const hiddenInput = event.target.closest(".row").nextElementSibling.querySelector(".status");
+		
+		if(selectedValue == "new"){
+			btnTitleInput.value = null;
+			btnTitleInput.setAttribute("value", "");
+			btnTitleInput.removeAttribute("disabled");
+			
+			btnMsgInput.value = null;
+			btnMsgInput.setAttribute("value", "");
+			btnMsgInput.removeAttribute("disabled");
+			
+			hiddenInput.value = "new";
+			hiddenInput.setAttribute("value", "new");
+		}
+		else{
+			btnTitleInput.value = null;
+			btnTitleInput.value = selectedId;
+			btnTitleInput.setAttribute("value", selectedId);
+			btnTitleInput.setAttribute("disabled", "disabled");
+
+			btnMsgInput.value = null;
+			btnMsgInput.value = selectedValue;
+			btnMsgInput.setAttribute("value", selectedValue);
+			btnMsgInput.setAttribute("disabled", "disabled");
+			
+			hiddenInput.value = null;
+			hiddenInput.setAttribute("value", "");
+		}
+	};
+	function removeBtn(event){
+		let row20 = event.target.closest(".rowrow");
+		if(row20){
+			row20.remove();
+		}
+	}
 </script>
 </body>
 </html>

@@ -9,6 +9,21 @@
 			channel_name,
 			sender_key
 		from 
-			TB_CHANNEL
+			TB_CHANNEL;
+	</select>
+	
+	<select id="ajaxPhones" resultType="com.thereal.model.dto.PhoneDTO">
+		select
+			phone
+		from 
+			TB_PHONE;
+	</select>
+	
+	<select id="ajaxButtons" resultType="com.thereal.model.dto.ButtonDTO">
+		select
+			name,
+			url_mobile
+		from
+			TB_BTN;
 	</select>
 </mapper>

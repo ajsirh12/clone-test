@@ -7,4 +7,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface RegistService {
 	ResponseEntity ajaxChannels(HttpServletRequest request, HttpSession session);
+	ResponseEntity ajaxPhones(HttpServletRequest request, HttpSession session);
+	ResponseEntity ajaxButtons(HttpServletRequest request, HttpSession session);
 }
