@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.thereal.model.dto.ButtonDTO;
 import com.thereal.model.dto.ChannelKeyDTO;
 import com.thereal.model.dto.PhoneDTO;
+import com.thereal.model.vo.ChannelVO;
 import com.thereal.util.SqlSessionSelector;
 
 @Repository("registDAO")
@@ -44,14 +45,14 @@ public class RegistDAO {
 		return sqlSession.selectList(namespace + ".ajaxButtons");
 	}
 	
-	public int selectChannel() {
+	public int selectChannel(ChannelVO vo) {
 		init();
-		return sqlSession.selectOne(namespace + ".selectChannel");
+		return sqlSession.selectOne(namespace + ".selectChannel", vo);
 	}
 	
-	public int insertChannel() {
+	public int insertChannel(ChannelVO vo) {
 		init();
-		return sqlSession.insert(namespace + ".insertChannel");
+		return sqlSession.insert(namespace + ".insertChannel", vo);
 	}
 	
 	public int insertTemplate() {

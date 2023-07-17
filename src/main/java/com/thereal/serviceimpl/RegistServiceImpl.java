@@ -18,6 +18,8 @@ import com.thereal.dao.RegistDAO;
 import com.thereal.model.dto.ButtonDTO;
 import com.thereal.model.dto.ChannelKeyDTO;
 import com.thereal.model.dto.PhoneDTO;
+import com.thereal.model.vo.ChannelVO;
+import com.thereal.model.vo.RegistVO;
 import com.thereal.service.RegistService;
 import com.thereal.util.ResponseHttp;
 
@@ -30,6 +32,34 @@ public class RegistServiceImpl implements RegistService {
 	private RegistDAO registDAO;
 	@Autowired
 	private LoginServiceImpl loginService;
+	
+	@Override
+	public ResponseEntity ajaxRegist(RegistVO vo, HttpSession session) {
+		Map<String, Object> resMessage = new HashMap<String, Object>();
+		
+		ChannelVO channelVO = ChannelVO.builder()
+							.channel_name(vo.getChannelName())
+							.sender_key(vo.getSenderKey())
+							.build();
+		
+		int channelSeq;
+		try {
+			channelSeq = registDAO.selectChannel(channelVO);
+		}
+		catch (NullPointerException e) {
+			registDAO.insertChannel(channelVO);
+			channelSeq = registDAO.selectChannel(channelVO);
+			
+		}
+		catch (Exception e) {
+			logger.error(e.getLocalizedMessage());
+			return ResponseHttp.failed(resMessage);
+		}
+		
+		logger.debug(channelSeq);
+		
+		return ResponseHttp.ok(resMessage);
+	}
 	
 	@Override
 	public ResponseEntity ajaxChannels(HttpServletRequest request, HttpSession session) {

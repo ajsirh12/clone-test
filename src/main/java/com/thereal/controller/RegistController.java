@@ -25,7 +25,7 @@ public class RegistController {
 	@RequestMapping(value = "/ajax/regist", method = RequestMethod.POST)
 	public ResponseEntity ajaxRegist(@RequestBody RegistVO vo, HttpSession session) {
 		logger.debug(vo.toString());
-		return null;
+		return registService.ajaxRegist(vo, session);
 	}
 	
 	@RequestMapping(value = "/ajax/channels", method = RequestMethod.POST)

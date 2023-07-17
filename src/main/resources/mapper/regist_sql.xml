@@ -26,4 +26,26 @@
 		from
 			TB_BTN;
 	</select>
+	
+	<select id="selectChannel" parameterType="com.thereal.model.vo.ChannelVO" resultType="int">
+		select
+			seq
+		from
+			TB_CHANNEL
+		where
+			channel_name=#{channel_name} and
+			sender_key=#{sender_key};
+	</select>
+	
+	<insert id="insertChannel" parameterType="com.thereal.model.vo.ChannelVO">
+		insert into
+			TB_CHANNEL(
+				channel_name,
+				sender_key
+			)
+		values(
+			#{channel_name},
+			#{sender_key}
+		);
+	</insert>
 </mapper>
