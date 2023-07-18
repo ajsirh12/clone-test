@@ -116,7 +116,6 @@
 		let btnMsg = document.querySelectorAll(".btn-msg");
 		let status = document.querySelectorAll(".status");
 		for(let i=0;i<btnTitle.length; i++){
-			console.log(btnTitle[i].value + " : " + btnMsg[i].value);
 			let temp = {'name':btnTitle[i].value, 'url':btnMsg[i].value, 'status':status[i].value};
 			btnList.push(temp);
 		}
@@ -263,6 +262,9 @@
 		let row20 = document.createElement("div");
 		row20.setAttribute("class", "row mb-3 rowrow");
 		
+		let col20 = document.createElement("div");
+		col20.setAttribute("class", "col");
+		
 		let row10 = document.createElement("div");
 		row10.setAttribute("class", "row mb-3");
 		
@@ -302,7 +304,7 @@
 		let col03 = document.createElement("div");
 		col03.setAttribute("class", "col-1");
 		let remove = document.createElement("button");
-		remove.setAttribute("class", "btn btn-outline-danger btn-sm");
+		remove.setAttribute("class", "btn btn-outline-danger");
 		remove.setAttribute("onclick", "removeBtn(event)");
 		remove.innerHTML = "-";
 		col03.appendChild(remove);
@@ -317,8 +319,10 @@
 		row00.appendChild(col03);
 		row00.appendChild(hidden);
 		
-		row20.appendChild(row10);
-		row20.appendChild(row00);
+		col20.appendChild(row10);
+		col20.appendChild(row00);
+		
+		row20.appendChild(col20);
 		
 		btnDiv.appendChild(row20);
 	};
@@ -345,7 +349,7 @@
 		let optionStart = document.createElement("option");
 		optionStart.setAttribute("hidden", "hidden");
 		optionStart.setAttribute("selected", "selected");
-		optionStart.innerHTML = "Select Phone";
+		optionStart.innerHTML = "Select Button";
 		select.appendChild(optionStart);
 		
 		for(let i=0; i<btnList.length; i++){

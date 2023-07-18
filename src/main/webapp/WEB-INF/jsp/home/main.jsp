@@ -15,8 +15,8 @@
 <div class="wrap">
 	<div id="menu" class="container">
 		<div class="row">
-			<div class="mb-3">
-				<label for="formGroupExampleInput" class="form-label"><button class="btn btn-primary" onclick="doButton(event);" value="001" disabled="disabled">템플릿 목록</button></label>
+			<div class="col mb-3">
+				<label for="formGroupExampleInput" class="form-label"><button class="btn btn-primary" onclick="doButton(event);" value="001">템플릿 등록</button></label>
 				<label for="formGroupExampleInput" class="form-label"><button class="btn btn-primary" onclick="doButton(event);" value="002">전송 통계</button></label>
 			</div>
 		</div>
@@ -27,7 +27,7 @@
 		const val = event.target.value;
 		
 		if(val == 001){
-			location.href="/admin/template";
+			location.href="/admin/regist";
 		}
 		else if(val == 002){
 			location.href="/admin/statistic";
