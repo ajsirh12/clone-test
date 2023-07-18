@@ -18,6 +18,8 @@ import com.thereal.dao.RegistDAO;
 import com.thereal.model.dto.ButtonDTO;
 import com.thereal.model.dto.ChannelKeyDTO;
 import com.thereal.model.dto.PhoneDTO;
+import com.thereal.model.entity.LmsEntity;
+import com.thereal.model.entity.TemplateEntity;
 import com.thereal.model.vo.ChannelVO;
 import com.thereal.model.vo.RegistVO;
 import com.thereal.service.RegistService;
@@ -45,11 +47,13 @@ public class RegistServiceImpl implements RegistService {
 		int channelSeq;
 		try {
 			channelSeq = registDAO.selectChannel(channelVO);
+			logger.info("Select Channel");
 		}
 		catch (NullPointerException e) {
 			registDAO.insertChannel(channelVO);
 			channelSeq = registDAO.selectChannel(channelVO);
 			
+			logger.info("Insert Channel");
 		}
 		catch (Exception e) {
 			logger.error(e.getLocalizedMessage());
@@ -57,6 +61,39 @@ public class RegistServiceImpl implements RegistService {
 		}
 		
 		logger.debug(channelSeq);
+		
+		try {
+			TemplateEntity templateEntity = TemplateEntity.builder()
+					.template_code(vo.getTemplateCode())
+					.channel_seq(channelSeq)
+					.msg(vo.getMsg())
+					.phone(vo.getPhone())
+					.comment(vo.getComment())
+					.build();
+
+			registDAO.insertTemplate(templateEntity);
+			logger.info("Insert Template");
+		}
+		catch (Exception e) {
+			logger.error(e.getLocalizedMessage());
+			return ResponseHttp.failed(resMessage);
+		}
+		
+		try {
+			LmsEntity lmsEntity = LmsEntity.builder()
+					.template_code(vo.getTemplateCode())
+					.failback_title(vo.getLmsTitle())
+					.failback_msg(vo.getMsg())
+					.failback_id("realmktAPIfb01")
+					.build();
+			
+			registDAO.insertLMS(lmsEntity);
+			logger.info("Insert LMS");
+		}
+		catch (Exception e) {
+			logger.error(e.getLocalizedMessage());
+			return ResponseHttp.failed(resMessage);
+		}
 		
 		return ResponseHttp.ok(resMessage);
 	}

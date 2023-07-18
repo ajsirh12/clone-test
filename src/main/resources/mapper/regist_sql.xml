@@ -48,4 +48,38 @@
 			#{sender_key}
 		);
 	</insert>
+	
+	<insert id="insertTemplate" parameterType="com.thereal.model.entity.TemplateEntity">
+		insert into
+			TB_TEMPLATE(
+				template_code,
+				channel_seq,
+				msg,
+				phone,
+				comment
+			)
+		values(
+			#{template_code},
+			#{channel_seq},
+			#{msg},
+			#{phone},
+			#{comment}
+		)
+	</insert>
+	
+	<insert id="insertLMS" parameterType="com.thereal.model.entity.LmsEntity">
+		insert into
+			TB_LMS(
+				template_code,
+				failback_title,
+				failback_msg,
+				failback_id
+			)
+		values(
+			#{template_code},
+			#{failback_title},
+			#{failback_msg},
+			#{failback_id}
+		)
+	</insert>
 </mapper>

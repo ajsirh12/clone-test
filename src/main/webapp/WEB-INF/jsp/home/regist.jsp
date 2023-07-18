@@ -367,8 +367,6 @@
 		const selectedValue = event.target.value;
 		const selectedId = event.target.options[event.target.selectedIndex].id;
 		
-		console.log(event.target.options[event.target.selectedIndex].value);
-		
 		const btnTitleInput = event.target.closest(".row").nextElementSibling.querySelector(".btn-title");
 		const btnMsgInput = event.target.closest(".row").nextElementSibling.querySelector(".btn-msg");
 		const hiddenInput = event.target.closest(".row").nextElementSibling.querySelector(".status");
