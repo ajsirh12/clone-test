@@ -31,13 +31,23 @@
 					<label for="formGroupExampleInput" class="form-label"><b>템플릿 선택</b></label>
 					<div class="row mb-3">
 						<div class="col">
-							<select id="template-select" class="form-select" onchange="template(event);"></select>
+							<select id="template-select" class="form-select" onchange="template();"></select>
 						</div>
 					</div>
 					<div class="row mb-3">
 						<div class="col">
-							<input type="text" id="template-code" class="form-control" disabled="disabled" placeholder="@Template-Code" style="display: none;">
-							<textarea class="form-control" id="template-msg" style="height: 300px;" disabled="disabled" placeholder="Template-Message"></textarea>
+							<input type="text" id="template-code" name="template-code" class="form-control" disabled="disabled" placeholder="@Template-Code" style="display: none;">
+							<textarea class="form-control" id="template-msg" name="template-msg" style="height: 300px;" disabled="disabled" placeholder="Template-Message"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<label for="formGroupExampleInput" class="form-label"><b>추가 설명</b></label>
+					<div class="row mb-3">
+						<div class="col">
+							<textarea class="form-control" id="comment" name="comment" placeholder="Comment"></textarea>
 						</div>
 					</div>
 				</div>
