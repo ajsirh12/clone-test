@@ -5,7 +5,8 @@ public enum PageView {
 	HOME_LOGIN("home/login"),
 	HOME_TEMPLATE("home/template"),
 	HOME_STATISTIC("home/statistic"),
-	HOME_REGIST("home/regist");
+	HOME_REGIST("home/regist"),
+	HOME_SUB_REGIST("home/subRegist");
 	
 	private final String value;
 	

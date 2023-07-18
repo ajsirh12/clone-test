@@ -62,4 +62,10 @@ public class AdminViewController {
 		logger.debug("========== getRegist ==========");
 		return adminViewService.getRegist(request, session);
 	}
+	
+	@RequestMapping(value = "/regist/sub", method = RequestMethod.GET)
+	public ModelAndView getRegistSub(HttpServletRequest request, HttpSession session) {
+		logger.debug("========== getRegistSub ==========");
+		return adminViewService.getRegistSub(request, session);
+	}
 }
