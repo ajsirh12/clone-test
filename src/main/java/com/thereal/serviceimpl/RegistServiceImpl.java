@@ -18,6 +18,8 @@ import com.thereal.dao.RegistDAO;
 import com.thereal.model.dto.ButtonDTO;
 import com.thereal.model.dto.ChannelKeyDTO;
 import com.thereal.model.dto.PhoneDTO;
+import com.thereal.model.entity.BtnEntity;
+import com.thereal.model.entity.BtnListEntity;
 import com.thereal.model.entity.LmsEntity;
 import com.thereal.model.entity.TemplateEntity;
 import com.thereal.model.vo.ChannelVO;
@@ -38,11 +40,17 @@ public class RegistServiceImpl implements RegistService {
 	@Override
 	public ResponseEntity ajaxRegist(RegistVO vo, HttpSession session) {
 		Map<String, Object> resMessage = new HashMap<String, Object>();
-		
-		ChannelVO channelVO = ChannelVO.builder()
-							.channel_name(vo.getChannelName())
-							.sender_key(vo.getSenderKey())
-							.build();
+		ChannelVO channelVO = null;
+		try {
+			channelVO = ChannelVO.builder()
+					.channel_name(vo.getChannelName())
+					.sender_key(vo.getSenderKey())
+					.build();
+		}
+		catch (Exception e) {
+			logger.error(e.getLocalizedMessage());
+			return ResponseHttp.failed(resMessage);
+		}
 		
 		int channelSeq;
 		try {
@@ -93,6 +101,60 @@ public class RegistServiceImpl implements RegistService {
 		catch (Exception e) {
 			logger.error(e.getLocalizedMessage());
 			return ResponseHttp.failed(resMessage);
+		}
+		
+		for(int i=0;i<vo.getBtnList().size();i++) {
+			int btnSeq;
+			
+			BtnEntity btnEntity = null;
+			try {
+				btnEntity = BtnEntity.builder()
+						.name(vo.getBtnList().get(i).get("name").toString())
+						.mobile(vo.getBtnList().get(i).get("url").toString())
+						.pc(vo.getBtnList().get(i).get("url").toString())
+						.lms(vo.getBtnList().get(i).get("url").toString())
+						.build();
+			}
+			catch (Exception e) {
+				logger.error(e.getLocalizedMessage());
+				return ResponseHttp.failed(resMessage);
+			}
+			
+			try {
+				btnSeq = registDAO.selectBtnSeq(btnEntity);
+				logger.info("Select Button");
+			}
+			catch (NullPointerException e) {
+				registDAO.insertBtn(btnEntity);
+				btnSeq = registDAO.selectBtnSeq(btnEntity);
+				logger.info("Insert Button");
+			}
+			catch (Exception e) {
+				logger.error(e.getLocalizedMessage());
+				return ResponseHttp.failed(resMessage);
+			}
+			
+			BtnListEntity btnListEntity = null;			
+			try {
+				btnListEntity = BtnListEntity.builder()
+						.template_code(vo.getTemplateCode())
+						.btn_seq(btnSeq)
+						.btn_order(i+1)
+						.build();
+			}
+			catch (Exception e) {
+				logger.error(e.getLocalizedMessage());
+				return ResponseHttp.failed(resMessage);
+			}
+			
+			try {
+				registDAO.insertBtnList(btnListEntity);
+				logger.info("Insert Button-List");
+			}
+			catch (Exception e) {
+				logger.error(e.getLocalizedMessage());
+				return ResponseHttp.failed(resMessage);
+			}
 		}
 		
 		return ResponseHttp.ok(resMessage);

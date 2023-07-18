@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 import com.thereal.model.dto.ButtonDTO;
 import com.thereal.model.dto.ChannelKeyDTO;
 import com.thereal.model.dto.PhoneDTO;
+import com.thereal.model.entity.BtnEntity;
+import com.thereal.model.entity.BtnListEntity;
 import com.thereal.model.entity.LmsEntity;
 import com.thereal.model.entity.TemplateEntity;
 import com.thereal.model.vo.ChannelVO;
@@ -67,18 +69,18 @@ public class RegistDAO {
 		return sqlSession.insert(namespace + ".insertLMS", entity);
 	}
 	
-	public int countBtn() {
+	public int selectBtnSeq(BtnEntity entity) {
 		init();
-		return sqlSession.selectOne(namespace + ".countBtn");
+		return sqlSession.selectOne(namespace + ".selectBtnSeq", entity);
 	}
 	
-	public int insertBtn() {
+	public int insertBtn(BtnEntity entity) {
 		init();
-		return sqlSession.insert(namespace + ".insertbtn");
+		return sqlSession.insert(namespace + ".insertBtn", entity);
 	}
 	
-	public int insertBtnList() {
+	public int insertBtnList(BtnListEntity entity) {
 		init();
-		return sqlSession.insert(namespace + ".insertBtnList");
+		return sqlSession.insert(namespace + ".insertBtnList", entity);
 	}
 }
