@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.thereal.model.dto.ButtonDTO;
 import com.thereal.model.dto.ChannelKeyDTO;
 import com.thereal.model.dto.PhoneDTO;
+import com.thereal.model.dto.TemplateDTO;
 import com.thereal.model.entity.BtnEntity;
 import com.thereal.model.entity.BtnListEntity;
 import com.thereal.model.entity.LmsEntity;
@@ -47,6 +48,11 @@ public class RegistDAO {
 	public List<ButtonDTO> ajaxButtons(){
 		init();
 		return sqlSession.selectList(namespace + ".ajaxButtons");
+	}
+	
+	public List<TemplateDTO> ajaxTemplates(){
+		init();
+		return sqlSession.selectList(namespace + ".ajaxTemplates");
 	}
 	
 	public int selectChannel(ChannelVO vo) {

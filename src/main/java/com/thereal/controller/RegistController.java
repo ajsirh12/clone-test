@@ -42,4 +42,9 @@ public class RegistController {
 	public ResponseEntity ajaxButtons(HttpServletRequest request, HttpSession session) {
 		return registService.ajaxButtons(request, session);
 	}
+	
+	@RequestMapping(value = "/ajax/templates", method = RequestMethod.POST)
+	public ResponseEntity ajaxTemplates(HttpServletRequest request, HttpSession session) {
+		return registService.ajaxTemplates(request, session);
+	}
 }

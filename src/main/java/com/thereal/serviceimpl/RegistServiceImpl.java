@@ -18,6 +18,7 @@ import com.thereal.dao.RegistDAO;
 import com.thereal.model.dto.ButtonDTO;
 import com.thereal.model.dto.ChannelKeyDTO;
 import com.thereal.model.dto.PhoneDTO;
+import com.thereal.model.dto.TemplateDTO;
 import com.thereal.model.entity.BtnEntity;
 import com.thereal.model.entity.BtnListEntity;
 import com.thereal.model.entity.LmsEntity;
@@ -198,6 +199,20 @@ public class RegistServiceImpl implements RegistService {
 
 		List<ButtonDTO> btnList = registDAO.ajaxButtons();
 		resMessage.put("btnList", btnList);
+		
+		return ResponseHttp.ok(resMessage);
+	}
+	
+	@Override
+	public ResponseEntity ajaxTemplates(HttpServletRequest request, HttpSession session) {
+		Map<String, Object> resMessage = new HashMap<String, Object>();
+		
+		if(!loginService.isLogin(session)) {
+			return ResponseHttp.status(resMessage, HttpStatus.UNAUTHORIZED);
+		}
+
+		List<TemplateDTO> templateList = registDAO.ajaxTemplates();
+		resMessage.put("templateList", templateList);
 		
 		return ResponseHttp.ok(resMessage);
 	}

@@ -27,6 +27,14 @@
 			TB_BTN;
 	</select>
 	
+	<select id="ajaxTemplates" resultType="com.thereal.model.dto.TemplateDTO">
+		select
+			template_code,
+			msg
+		from
+			TB_TEMPLATE;			
+	</select>
+	
 	<select id="selectChannel" parameterType="com.thereal.model.vo.ChannelVO" resultType="int">
 		select
 			seq

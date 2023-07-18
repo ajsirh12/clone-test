@@ -21,8 +21,7 @@
 					<label for="formGroupExampleInput" class="form-label"><b>채널선택</b></label>
 					<div class="row mb-3">
 						<div class="col">
-							<select id="channel-select" class="form-select" onchange="channel();">
-							</select>
+							<select id="channel-select" class="form-select" onchange="channel();"></select>
 						</div>
 					</div>
 					<div class="row mb-3">
