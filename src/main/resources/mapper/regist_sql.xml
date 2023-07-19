@@ -132,4 +132,27 @@
 			#{btn_order}
 		)
 	</insert>
+	
+	<select id="checkSubId" parameterType="string" resultType="int">
+		select
+			count(sub_id)
+		from
+			TB_SUB_ID
+		where
+			sub_id=#{subId}
+	</select>
+	
+	<insert id="insertSubId" parameterType="com.thereal.model.dto.SubDTO">
+		insert into
+			TB_SUB_ID(
+				sub_id,
+				template_code,
+				comment
+			)
+		values(
+			#{sub_id},
+			#{template_code},
+			#{comment}
+		)
+	</insert>
 </mapper>

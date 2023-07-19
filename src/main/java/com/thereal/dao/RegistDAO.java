@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.thereal.model.dto.ButtonDTO;
 import com.thereal.model.dto.ChannelKeyDTO;
 import com.thereal.model.dto.PhoneDTO;
+import com.thereal.model.dto.SubDTO;
 import com.thereal.model.dto.TemplateDTO;
 import com.thereal.model.entity.BtnEntity;
 import com.thereal.model.entity.BtnListEntity;
@@ -88,5 +89,15 @@ public class RegistDAO {
 	public int insertBtnList(BtnListEntity entity) {
 		init();
 		return sqlSession.insert(namespace + ".insertBtnList", entity);
+	}
+	
+	public int checkSubId(String subId) {
+		init();
+		return sqlSession.selectOne(namespace + ".checkSubId", subId);
+	}
+	
+	public int insertSubId(SubDTO dto) {
+		init();
+		return sqlSession.insert(namespace + ".insertSubId", dto);		
 	}
 }

@@ -20,8 +20,11 @@
 				<div class="col">
 					<label for="formGroupExampleInput" class="form-label"><b>서브 아이디</b></label>
 					<div class="row mb-3">
-						<div class="col">
+						<div class="col-10">
 							<input type="text" class="form-control" id="sub-id" name="sub-id" placeholder="@Sub-ID">
+						</div>
+						<div class="col-2 text-center">
+							<button class="btn btn-outline-primary" id="dup-btn" onclick="checkSubId();">중복 체크</button>
 						</div>
 					</div>
 				</div>
@@ -56,7 +59,7 @@
 				<div class="col">
 					<div class="row mb-3">
 						<div class="col text-center">
-							<button class="btn btn-primary">등록</button>
+							<button class="btn btn-primary" id="regist-btn" onclick="regist();">등록</button>
 						</div>
 					</div>
 				</div>
@@ -66,6 +69,8 @@
 </div>
 </body>
 <script type="text/javascript">
+	var duplicated = true;
+
 	window.onload = function(){
 		getTemplate();
 	};
@@ -119,6 +124,69 @@
 		templateMsg.value = value;
 		templateMsg.setAttribute("value", value);
 		templateMsg.setAttribute("disabled", "disabled");
+	}
+	
+	function checkSubId(){
+		let subId = document.querySelector("#sub-id");
+		let check = document.querySelector("#dup-btn");
+				
+		if(subId.value === ''){
+			return;
+		}
+		
+		subId.setAttribute("disabled", "disabled");
+		check.setAttribute("disabled", "disabled");
+		
+		$.ajax({
+			type:"post",
+			url:"/ajax/check/sub",
+			data:{subId:subId.value},
+			success:function(result){
+				duplicated = false;
+				check.innerHTML = "사용 가능";
+			},
+			error:function(request, status, error){
+				console.log(request.responseText);
+				console.log(error);
+				subId.removeAttribute("disabled");
+				check.removeAttribute("disabled");
+			}
+		});
+	}
+	
+	function regist(){
+		if(duplicated){
+			console.log(duplicated);
+			return;
+		}
+		else{
+			let subId = document.querySelector("#sub-id");
+			let templateCode = document.querySelector("#template-code");
+			let comment = document.querySelector("#comment");
+			
+			let jsonData;
+			let object = new Object();
+			object.subId = subId.value;
+			object.templateCode = templateCode.value;
+			object.comment = comment.value;
+			
+			jsonData = JSON.stringify(object);
+			
+			$.ajax({
+				type:"post",
+				url:"/ajax/regist/sub",
+				contentType: "application/json",
+				data:jsonData,
+				success:function(result){
+					alert("등록 완료");
+					location.href="/admin/main";
+				},
+				error:function(request, status, error){
+					console.log(request.responseText);
+					console.log(error);
+				}		
+			});
+		}
 	}
 </script>
 </html>

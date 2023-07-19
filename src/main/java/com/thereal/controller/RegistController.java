@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.thereal.model.vo.RegistSubVO;
 import com.thereal.model.vo.RegistVO;
 import com.thereal.serviceimpl.RegistServiceImpl;
 
@@ -46,5 +47,15 @@ public class RegistController {
 	@RequestMapping(value = "/ajax/templates", method = RequestMethod.POST)
 	public ResponseEntity ajaxTemplates(HttpServletRequest request, HttpSession session) {
 		return registService.ajaxTemplates(request, session);
+	}
+	
+	@RequestMapping(value = "/ajax/check/sub", method = RequestMethod.POST)
+	public ResponseEntity ajaxCheckSub(HttpServletRequest request, HttpSession session) {
+		return registService.ajaxCheckSub(request, session);
+	}
+	
+	@RequestMapping(value = "/ajax/regist/sub", method = RequestMethod.POST)
+	public ResponseEntity ajaxRegistSub(@RequestBody RegistSubVO vo, HttpSession session) {
+		return registService.ajaxRegistSub(vo, session);
 	}
 }

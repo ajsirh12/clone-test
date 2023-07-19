@@ -1,16 +1,17 @@
-package com.thereal.model.dto;
+package com.thereal.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class SubDTO {
-	private String sub_id;
+@AllArgsConstructor
+public class RegistSubVO {
+	private String templateCode;
+	private String subId;
 	private String comment;
-	private String template_code;
 }

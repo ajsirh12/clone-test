@@ -18,12 +18,14 @@ import com.thereal.dao.RegistDAO;
 import com.thereal.model.dto.ButtonDTO;
 import com.thereal.model.dto.ChannelKeyDTO;
 import com.thereal.model.dto.PhoneDTO;
+import com.thereal.model.dto.SubDTO;
 import com.thereal.model.dto.TemplateDTO;
 import com.thereal.model.entity.BtnEntity;
 import com.thereal.model.entity.BtnListEntity;
 import com.thereal.model.entity.LmsEntity;
 import com.thereal.model.entity.TemplateEntity;
 import com.thereal.model.vo.ChannelVO;
+import com.thereal.model.vo.RegistSubVO;
 import com.thereal.model.vo.RegistVO;
 import com.thereal.service.RegistService;
 import com.thereal.util.ResponseHttp;
@@ -213,6 +215,62 @@ public class RegistServiceImpl implements RegistService {
 
 		List<TemplateDTO> templateList = registDAO.ajaxTemplates();
 		resMessage.put("templateList", templateList);
+		
+		return ResponseHttp.ok(resMessage);
+	}
+	
+	@Override
+	public ResponseEntity ajaxCheckSub(HttpServletRequest request, HttpSession session) {
+		Map<String, Object> resMessage = new HashMap<String, Object>();
+		
+		if(!loginService.isLogin(session)) {
+			return ResponseHttp.status(resMessage, HttpStatus.UNAUTHORIZED);
+		}
+		
+		String subId = request.getParameter("subId");
+		
+		try {
+			if(registDAO.checkSubId(subId) != 0) {
+				return ResponseHttp.failed(resMessage);
+			}
+		}
+		catch (Exception e) {
+			logger.error(e.getLocalizedMessage());
+			return ResponseHttp.failed(resMessage);
+		}
+
+		return ResponseHttp.ok(resMessage);
+	}
+	
+	@Override
+	public ResponseEntity ajaxRegistSub(RegistSubVO vo, HttpSession session) {
+		Map<String, Object> resMessage = new HashMap<String, Object>();
+		
+		if(!loginService.isLogin(session)) {
+			return ResponseHttp.status(resMessage, HttpStatus.UNAUTHORIZED);
+		}
+		
+		SubDTO subDTO = null;		
+		try {
+			subDTO = SubDTO.builder()
+					.sub_id(vo.getSubId())
+					.template_code(vo.getTemplateCode())
+					.comment(vo.getComment())
+					.build();
+		}
+		catch (Exception e) {
+			logger.error(e.getLocalizedMessage());
+			return ResponseHttp.failed(resMessage);
+		}
+		
+		try {
+			registDAO.insertSubId(subDTO);
+			logger.info("Insert Sub-ID");
+		}
+		catch (Exception e) {
+			logger.error(e.getLocalizedMessage());
+			return ResponseHttp.failed(resMessage);
+		}
 		
 		return ResponseHttp.ok(resMessage);
 	}

@@ -134,7 +134,8 @@
 			contentType: "application/json",
 			data:jsonData,
 			success:function(result){
-				// location.href="/admin/regist";
+				alert("등록 완료");
+				location.href="/admin/main";
 			},
 			error:function(request, status, error){
 				console.log(request.responseText);
