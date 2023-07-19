@@ -58,4 +58,9 @@ public class RegistController {
 	public ResponseEntity ajaxRegistSub(@RequestBody RegistSubVO vo, HttpSession session) {
 		return registService.ajaxRegistSub(vo, session);
 	}
+	
+	@RequestMapping(value = "/ajax/check/templates", method = RequestMethod.POST)
+	public ResponseEntity ajaxCheckTemp(HttpServletRequest request, HttpSession session) {
+		return registService.ajaxCheckTemp(request, session);
+	}
 }

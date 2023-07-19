@@ -100,4 +100,9 @@ public class RegistDAO {
 		init();
 		return sqlSession.insert(namespace + ".insertSubId", dto);		
 	}
+	
+	public int checkTemplate(String tempCode) {
+		init();
+		return sqlSession.selectOne(namespace + ".checkTemplate", tempCode);
+	}
 }

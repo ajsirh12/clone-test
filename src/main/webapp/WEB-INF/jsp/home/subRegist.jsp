@@ -144,6 +144,7 @@
 			data:{subId:subId.value},
 			success:function(result){
 				duplicated = false;
+				check.setAttribute("class", "btn btn-primary");
 				check.innerHTML = "사용 가능";
 			},
 			error:function(request, status, error){

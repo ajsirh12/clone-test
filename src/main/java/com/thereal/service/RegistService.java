@@ -19,4 +19,6 @@ public interface RegistService {
 	
 	ResponseEntity ajaxCheckSub(HttpServletRequest request, HttpSession session);
 	ResponseEntity ajaxRegistSub(RegistSubVO vo, HttpSession session);
+	
+	ResponseEntity ajaxCheckTemp(HttpServletRequest request, HttpSession session);
 }

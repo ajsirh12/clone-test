@@ -274,4 +274,27 @@ public class RegistServiceImpl implements RegistService {
 		
 		return ResponseHttp.ok(resMessage);
 	}
+	
+	@Override
+	public ResponseEntity ajaxCheckTemp(HttpServletRequest request, HttpSession session) {
+		Map<String, Object> resMessage = new HashMap<String, Object>();
+		
+		if(!loginService.isLogin(session)) {
+			return ResponseHttp.status(resMessage, HttpStatus.UNAUTHORIZED);
+		}
+		
+		String temp = request.getParameter("temp");
+		
+		try {
+			if(registDAO.checkTemplate(temp) != 0) {
+				return ResponseHttp.failed(resMessage);
+			}
+		}
+		catch (Exception e) {
+			logger.error(e.getLocalizedMessage());
+			return ResponseHttp.failed(resMessage);
+		}
+
+		return ResponseHttp.ok(resMessage);
+	}
 }

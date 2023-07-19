@@ -155,4 +155,13 @@
 			#{comment}
 		)
 	</insert>
+	
+	<select id="checkTemplate" parameterType="string" resultType="int">
+		select
+			count(template_code)
+		from
+			TB_TEMPLATE
+		where
+			template_code=#{tempCode}
+	</select>
 </mapper>
