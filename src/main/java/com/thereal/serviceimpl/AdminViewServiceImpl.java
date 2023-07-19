@@ -61,4 +61,12 @@ public class AdminViewServiceImpl implements AdminViewService{
 		}
 		return new ModelAndView(PageView.HOME_REGIST.getValue());
 	}
+	
+	@Override
+	public ModelAndView getRegistSub(HttpServletRequest request, HttpSession session) {
+		if(!loginService.isLogin(session)) {
+			return new ModelAndView(Redirect.ADMIN_LOGIN.getValue());
+		}
+		return new ModelAndView(PageView.HOME_SUB_REGIST.getValue());
+	}
 }

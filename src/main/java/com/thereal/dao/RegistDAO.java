@@ -11,6 +11,11 @@ import org.springframework.stereotype.Repository;
 import com.thereal.model.dto.ButtonDTO;
 import com.thereal.model.dto.ChannelKeyDTO;
 import com.thereal.model.dto.PhoneDTO;
+import com.thereal.model.dto.TemplateDTO;
+import com.thereal.model.entity.BtnEntity;
+import com.thereal.model.entity.BtnListEntity;
+import com.thereal.model.entity.LmsEntity;
+import com.thereal.model.entity.TemplateEntity;
 import com.thereal.model.vo.ChannelVO;
 import com.thereal.util.SqlSessionSelector;
 
@@ -45,6 +50,11 @@ public class RegistDAO {
 		return sqlSession.selectList(namespace + ".ajaxButtons");
 	}
 	
+	public List<TemplateDTO> ajaxTemplates(){
+		init();
+		return sqlSession.selectList(namespace + ".ajaxTemplates");
+	}
+	
 	public int selectChannel(ChannelVO vo) {
 		init();
 		return sqlSession.selectOne(namespace + ".selectChannel", vo);
@@ -55,28 +65,28 @@ public class RegistDAO {
 		return sqlSession.insert(namespace + ".insertChannel", vo);
 	}
 	
-	public int insertTemplate() {
+	public int insertTemplate(TemplateEntity entity) {
 		init();
-		return sqlSession.insert(namespace + ".insertTemplate");
+		return sqlSession.insert(namespace + ".insertTemplate", entity);
 	}
 	
-	public int insertLMS() {
+	public int insertLMS(LmsEntity entity) {
 		init();
-		return sqlSession.insert(namespace + ".insertLMS");
+		return sqlSession.insert(namespace + ".insertLMS", entity);
 	}
 	
-	public int countBtn() {
+	public int selectBtnSeq(BtnEntity entity) {
 		init();
-		return sqlSession.selectOne(namespace + ".countBtn");
+		return sqlSession.selectOne(namespace + ".selectBtnSeq", entity);
 	}
 	
-	public int insertBtn() {
+	public int insertBtn(BtnEntity entity) {
 		init();
-		return sqlSession.insert(namespace + ".insertbtn");
+		return sqlSession.insert(namespace + ".insertBtn", entity);
 	}
 	
-	public int insertBtnList() {
+	public int insertBtnList(BtnListEntity entity) {
 		init();
-		return sqlSession.insert(namespace + ".insertBtnList");
+		return sqlSession.insert(namespace + ".insertBtnList", entity);
 	}
 }

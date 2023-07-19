@@ -18,6 +18,11 @@ import com.thereal.dao.RegistDAO;
 import com.thereal.model.dto.ButtonDTO;
 import com.thereal.model.dto.ChannelKeyDTO;
 import com.thereal.model.dto.PhoneDTO;
+import com.thereal.model.dto.TemplateDTO;
+import com.thereal.model.entity.BtnEntity;
+import com.thereal.model.entity.BtnListEntity;
+import com.thereal.model.entity.LmsEntity;
+import com.thereal.model.entity.TemplateEntity;
 import com.thereal.model.vo.ChannelVO;
 import com.thereal.model.vo.RegistVO;
 import com.thereal.service.RegistService;
@@ -36,20 +41,28 @@ public class RegistServiceImpl implements RegistService {
 	@Override
 	public ResponseEntity ajaxRegist(RegistVO vo, HttpSession session) {
 		Map<String, Object> resMessage = new HashMap<String, Object>();
-		
-		ChannelVO channelVO = ChannelVO.builder()
-							.channel_name(vo.getChannelName())
-							.sender_key(vo.getSenderKey())
-							.build();
+		ChannelVO channelVO = null;
+		try {
+			channelVO = ChannelVO.builder()
+					.channel_name(vo.getChannelName())
+					.sender_key(vo.getSenderKey())
+					.build();
+		}
+		catch (Exception e) {
+			logger.error(e.getLocalizedMessage());
+			return ResponseHttp.failed(resMessage);
+		}
 		
 		int channelSeq;
 		try {
 			channelSeq = registDAO.selectChannel(channelVO);
+			logger.info("Select Channel");
 		}
 		catch (NullPointerException e) {
 			registDAO.insertChannel(channelVO);
 			channelSeq = registDAO.selectChannel(channelVO);
 			
+			logger.info("Insert Channel");
 		}
 		catch (Exception e) {
 			logger.error(e.getLocalizedMessage());
@@ -57,6 +70,93 @@ public class RegistServiceImpl implements RegistService {
 		}
 		
 		logger.debug(channelSeq);
+		
+		try {
+			TemplateEntity templateEntity = TemplateEntity.builder()
+					.template_code(vo.getTemplateCode())
+					.channel_seq(channelSeq)
+					.msg(vo.getMsg())
+					.phone(vo.getPhone())
+					.comment(vo.getComment())
+					.build();
+
+			registDAO.insertTemplate(templateEntity);
+			logger.info("Insert Template");
+		}
+		catch (Exception e) {
+			logger.error(e.getLocalizedMessage());
+			return ResponseHttp.failed(resMessage);
+		}
+		
+		try {
+			LmsEntity lmsEntity = LmsEntity.builder()
+					.template_code(vo.getTemplateCode())
+					.failback_title(vo.getLmsTitle())
+					.failback_msg(vo.getMsg())
+					.failback_id("realmktAPIfb01")
+					.build();
+			
+			registDAO.insertLMS(lmsEntity);
+			logger.info("Insert LMS");
+		}
+		catch (Exception e) {
+			logger.error(e.getLocalizedMessage());
+			return ResponseHttp.failed(resMessage);
+		}
+		
+		for(int i=0;i<vo.getBtnList().size();i++) {
+			int btnSeq;
+			
+			BtnEntity btnEntity = null;
+			try {
+				btnEntity = BtnEntity.builder()
+						.name(vo.getBtnList().get(i).get("name").toString())
+						.mobile(vo.getBtnList().get(i).get("url").toString())
+						.pc(vo.getBtnList().get(i).get("url").toString())
+						.lms(vo.getBtnList().get(i).get("url").toString())
+						.build();
+			}
+			catch (Exception e) {
+				logger.error(e.getLocalizedMessage());
+				return ResponseHttp.failed(resMessage);
+			}
+			
+			try {
+				btnSeq = registDAO.selectBtnSeq(btnEntity);
+				logger.info("Select Button");
+			}
+			catch (NullPointerException e) {
+				registDAO.insertBtn(btnEntity);
+				btnSeq = registDAO.selectBtnSeq(btnEntity);
+				logger.info("Insert Button");
+			}
+			catch (Exception e) {
+				logger.error(e.getLocalizedMessage());
+				return ResponseHttp.failed(resMessage);
+			}
+			
+			BtnListEntity btnListEntity = null;			
+			try {
+				btnListEntity = BtnListEntity.builder()
+						.template_code(vo.getTemplateCode())
+						.btn_seq(btnSeq)
+						.btn_order(i+1)
+						.build();
+			}
+			catch (Exception e) {
+				logger.error(e.getLocalizedMessage());
+				return ResponseHttp.failed(resMessage);
+			}
+			
+			try {
+				registDAO.insertBtnList(btnListEntity);
+				logger.info("Insert Button-List");
+			}
+			catch (Exception e) {
+				logger.error(e.getLocalizedMessage());
+				return ResponseHttp.failed(resMessage);
+			}
+		}
 		
 		return ResponseHttp.ok(resMessage);
 	}
@@ -99,6 +199,20 @@ public class RegistServiceImpl implements RegistService {
 
 		List<ButtonDTO> btnList = registDAO.ajaxButtons();
 		resMessage.put("btnList", btnList);
+		
+		return ResponseHttp.ok(resMessage);
+	}
+	
+	@Override
+	public ResponseEntity ajaxTemplates(HttpServletRequest request, HttpSession session) {
+		Map<String, Object> resMessage = new HashMap<String, Object>();
+		
+		if(!loginService.isLogin(session)) {
+			return ResponseHttp.status(resMessage, HttpStatus.UNAUTHORIZED);
+		}
+
+		List<TemplateDTO> templateList = registDAO.ajaxTemplates();
+		resMessage.put("templateList", templateList);
 		
 		return ResponseHttp.ok(resMessage);
 	}
