@@ -131,6 +131,7 @@
 		let check = document.querySelector("#dup-btn");
 				
 		if(subId.value === ''){
+			alert("Sub-ID 빈칸");
 			return;
 		}
 		
@@ -150,13 +151,14 @@
 				console.log(error);
 				subId.removeAttribute("disabled");
 				check.removeAttribute("disabled");
+				alert("Sub-ID 오류");
 			}
 		});
 	}
 	
 	function regist(){
 		if(duplicated){
-			console.log(duplicated);
+			alert("중복체크를 해주세요.");
 			return;
 		}
 		else{
@@ -182,6 +184,7 @@
 					location.href="/admin/main";
 				},
 				error:function(request, status, error){
+					alert("등록 실패");
 					console.log(request.responseText);
 					console.log(error);
 				}		
