@@ -68,4 +68,16 @@ public class AdminViewController {
 		logger.debug("========== getRegistSub ==========");
 		return adminViewService.getRegistSub(request, session);
 	}
+	
+	@RequestMapping(value = "/manage/template", method = RequestMethod.GET)
+	public ModelAndView getManageTemplate(HttpServletRequest request, HttpSession session) {
+		logger.debug("========== getManageTemplate ==========");
+		return adminViewService.getManageTemplate(request, session);
+	}
+	
+	@RequestMapping(value = "/manage/sub", method = RequestMethod.GET)
+	public ModelAndView getManageSub(HttpServletRequest request, HttpSession session) {
+		logger.debug("========== getManageSub ==========");
+		return adminViewService.getManageSub(request, session);
+	}
 }
