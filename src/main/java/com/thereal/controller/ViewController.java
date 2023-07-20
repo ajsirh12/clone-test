@@ -16,9 +16,9 @@ import com.thereal.serviceimpl.AdminViewServiceImpl;
 
 @Controller
 @RequestMapping(value = "/admin")
-public class AdminViewController {
+public class ViewController {
 	
-	private static final Logger logger = LogManager.getLogger(AdminViewController.class);
+	private static final Logger logger = LogManager.getLogger(ViewController.class);
 	
 	@Autowired AdminViewServiceImpl adminViewService;
 	
