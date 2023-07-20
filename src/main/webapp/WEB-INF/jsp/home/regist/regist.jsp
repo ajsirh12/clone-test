@@ -49,8 +49,11 @@
 				<div class="col">
 					<label for="formGroupExampleInput" class="form-label"><b>템플릿</b></label>
 					<div class="row mb-3">
-						<div class="col">
+						<div class="col-10">
 							<input type="text" class="form-control" id="template-code" name="template-code" placeholder="Template Code">
+						</div>
+						<div class="col-2 text-center">
+							<button class="btn btn-outline-primary" id="dup-btn" onclick="checkTemplate();">중복 체크</button>
 						</div>
 					</div>
 					<div class="row mb-3">
@@ -90,6 +93,7 @@
 </div>
 <script type="text/javascript">
 	let btnList = new Array();
+	var duplicated = true;
 	
 	window.onload = function(){
 		getChannelList();
@@ -98,49 +102,56 @@
 	};
 
 	function regist(){
-		let jsonData;
-		let object = new Object();
-		
-		let channel = document.querySelector("#channel");
-		let senderKey = document.querySelector("#sender-key");
-		let phone = document.querySelector("#phone-select");
-		let templateCode = document.querySelector("#template-code");
-		let templateMsg = document.querySelector("#template-msg");
-		let lmsTitle = document.querySelector("#lms-title");
-		let comment = document.querySelector("#comment");
-		
-		let btnList = new Array();
-		let btnTitle = document.querySelectorAll(".btn-title");
-		let btnMsg = document.querySelectorAll(".btn-msg");
-		let status = document.querySelectorAll(".status");
-		for(let i=0;i<btnTitle.length; i++){
-			let temp = {'name':btnTitle[i].value, 'url':btnMsg[i].value, 'status':status[i].value};
-			btnList.push(temp);
+		if(duplicated){
+			alert("중복체크를 해주세요.");
+			return;
 		}
-		
-		object.channelName = channel.value;
-		object.senderKey = senderKey.value;
-		object.phone = phone.value;
-		object.templateCode = templateCode.value;
-		object.lmsTitle= lmsTitle.value;
-		object.msg = templateMsg.value;
-		object.comment = comment.value;
-		object.btnList = btnList;
-		jsonData = JSON.stringify(object);
-		
-		$.ajax({
-			type:"post",
-			url:"/ajax/regist",
-			contentType: "application/json",
-			data:jsonData,
-			success:function(result){
-				// location.href="/admin/regist";
-			},
-			error:function(request, status, error){
-				console.log(request.responseText);
-				console.log(error);
-			}		
-		});
+		else{
+			let jsonData;
+			let object = new Object();
+			
+			let channel = document.querySelector("#channel");
+			let senderKey = document.querySelector("#sender-key");
+			let phone = document.querySelector("#phone-select");
+			let templateCode = document.querySelector("#template-code");
+			let templateMsg = document.querySelector("#template-msg");
+			let lmsTitle = document.querySelector("#lms-title");
+			let comment = document.querySelector("#comment");
+			
+			let btnList = new Array();
+			let btnTitle = document.querySelectorAll(".btn-title");
+			let btnMsg = document.querySelectorAll(".btn-msg");
+			let status = document.querySelectorAll(".status");
+			for(let i=0;i<btnTitle.length; i++){
+				let temp = {'name':btnTitle[i].value, 'url':btnMsg[i].value, 'status':status[i].value};
+				btnList.push(temp);
+			}
+			
+			object.channelName = channel.value;
+			object.senderKey = senderKey.value;
+			object.phone = phone.value;
+			object.templateCode = templateCode.value;
+			object.lmsTitle= lmsTitle.value;
+			object.msg = templateMsg.value;
+			object.comment = comment.value;
+			object.btnList = btnList;
+			jsonData = JSON.stringify(object);
+			
+			$.ajax({
+				type:"post",
+				url:"/ajax/regist",
+				contentType: "application/json",
+				data:jsonData,
+				success:function(result){
+					alert("등록 완료");
+					location.href="/admin/main";
+				},
+				error:function(request, status, error){
+					console.log(request.responseText);
+					console.log(error);
+				}		
+			});	
+		}
 	};
 	
 	function getChannelList(){
@@ -405,6 +416,37 @@
 		if(row20){
 			row20.remove();
 		}
+	}
+	
+	function checkTemplate(){
+		let temp = document.querySelector("#template-code");
+		let check = document.querySelector("#dup-btn");
+				
+		if(temp.value === ''){
+			alert("Template 빈칸");
+			return;
+		}
+		
+		temp.setAttribute("disabled", "disabled");
+		check.setAttribute("disabled", "disabled");
+		
+		$.ajax({
+			type:"post",
+			url:"/ajax/check/templates",
+			data:{temp:temp.value},
+			success:function(result){
+				duplicated = false;
+				check.setAttribute("class", "btn btn-primary");
+				check.innerHTML = "사용 가능";
+			},
+			error:function(request, status, error){
+				console.log(request.responseText);
+				console.log(error);
+				temp.removeAttribute("disabled");
+				check.removeAttribute("disabled");
+				alert("Template 오류");
+			}
+		});
 	}
 </script>
 </body>

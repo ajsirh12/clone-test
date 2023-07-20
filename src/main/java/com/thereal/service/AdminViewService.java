@@ -13,4 +13,7 @@ public interface AdminViewService {
 	
 	ModelAndView getRegist(HttpServletRequest request, HttpSession session);
 	ModelAndView getRegistSub(HttpServletRequest request, HttpSession session);
+	
+	ModelAndView getManageTemplate(HttpServletRequest request, HttpSession session);
+	ModelAndView getManageSub(HttpServletRequest request, HttpSession session);
 }

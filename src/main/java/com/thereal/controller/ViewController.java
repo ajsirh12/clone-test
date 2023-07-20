@@ -16,9 +16,9 @@ import com.thereal.serviceimpl.AdminViewServiceImpl;
 
 @Controller
 @RequestMapping(value = "/admin")
-public class AdminViewController {
+public class ViewController {
 	
-	private static final Logger logger = LogManager.getLogger(AdminViewController.class);
+	private static final Logger logger = LogManager.getLogger(ViewController.class);
 	
 	@Autowired AdminViewServiceImpl adminViewService;
 	
@@ -67,5 +67,17 @@ public class AdminViewController {
 	public ModelAndView getRegistSub(HttpServletRequest request, HttpSession session) {
 		logger.debug("========== getRegistSub ==========");
 		return adminViewService.getRegistSub(request, session);
+	}
+	
+	@RequestMapping(value = "/manage/template", method = RequestMethod.GET)
+	public ModelAndView getManageTemplate(HttpServletRequest request, HttpSession session) {
+		logger.debug("========== getManageTemplate ==========");
+		return adminViewService.getManageTemplate(request, session);
+	}
+	
+	@RequestMapping(value = "/manage/sub", method = RequestMethod.GET)
+	public ModelAndView getManageSub(HttpServletRequest request, HttpSession session) {
+		logger.debug("========== getManageSub ==========");
+		return adminViewService.getManageSub(request, session);
 	}
 }
