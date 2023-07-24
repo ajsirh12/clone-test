@@ -19,6 +19,9 @@
 	.mb-1{
 		font-size: 0.9em;
 	}
+	.mb-3{
+		font-size: 0.9em;
+	}
 </style>
 </head>
 <body>
@@ -65,13 +68,13 @@
 						<div class="row mb-1">
 							<div class="col input-group">
 								<span class="input-group-text">채널명</span>
-								<input type="text" class="form-control" id="channelName" readonly="readonly">
+								<input type="text" class="form-control" id="channelName" disabled="disabled">
 							</div>
 						</div>
-						<div class="row mb-1">
+						<div class="row mb-3">
 							<div class="col input-group">
 								<span class="input-group-text">채널키</span>
-								<input type="text" class="form-control" id="senderKey" readonly="readonly">
+								<input type="text" class="form-control" id="senderKey" disabled="disabled">
 							</div>
 						</div>
 						
@@ -80,7 +83,7 @@
 								<label for="formGroupExampleInput" class="form-label"><b>발송자 정보</b></label>
 							</div>
 						</div>
-						<div class="row mb-1">
+						<div class="row mb-3">
 							<div class="col input-group">
 								<span class="input-group-text">전화번호</span>
 								<select class="form-select" id="phone-select">
@@ -97,29 +100,31 @@
 						<div class="row mb-1">
 							<div class="col input-group">
 								<span class="input-group-text">템플릿 코드</span>
-								<input type="text" class="form-control" id="templateCode" readonly="readonly">
+								<input type="text" class="form-control" id="templateCode" disabled="disabled">
 							</div>
 						</div>
 						<div class="row mb-1">
 							<div class="col input-group">
 								<span class="input-group-text">템플릿 메시지</span>
-								<textarea class="form-control" id="templateMsg" readonly="readonly" style="height: 200px;"></textarea>
+								<textarea class="form-control" id="templateMsg" disabled="disabled" style="height: 200px;"></textarea>
 							</div>
 						</div>
-						<div class="row mb-1">
+						<div class="row mb-3">
 							<div class="col input-group">
 								<span class="input-group-text">템플릿 설명</span>
-								<textarea class="form-control" id="comment" readonly="readonly" style="height: 100px;"></textarea>
+								<textarea class="form-control" id="comment" style="height: 100px;"></textarea>
 							</div>
 						</div>
 						
 						<div class="row">
 							<div class="col">
-								<label for="formGroupExampleInput" class="form-label"><b>버튼 정보</b></label>
+								<label for="formGroupExampleInput" class="form-label" id="btnInfo"><b>버튼 정보</b></label>
 							</div>
 						</div>
-						<div class="row mb-1" id="buttonDiv">
-							
+						<div class="row mb-1">
+							<div class="col" id="buttonDiv">
+								
+							</div>
 						</div>
 					</div>
 				</div>
@@ -234,8 +239,57 @@
 		comment.value = detail.comment;
 		
 		let btnDiv = document.querySelector("#buttonDiv");
+		btnDiv.innerHTML="";
 		let btnList = result.buttonList;
+		let btnInfo = document.querySelector("#btnInfo");
 		
+		if(btnList.length > 0){
+			btnInfo.removeAttribute("hidden");
+		}
+		else{
+			btnInfo.setAttribute("hidden", "hidden");
+		}
+		
+		for(let i=0;i<btnList.length;i++){
+			console.log(btnList[i]);
+			let row00 = document.createElement("div")
+			let col00 = document.createElement("div")
+			let span00 = document.createElement("span");
+			let input00 = document.createElement("input");
+			
+			row00.setAttribute("class", "row mb-1");
+			col00.setAttribute("class", "col input-group");
+			span00.setAttribute("class", "input-group-text");
+			span00.innerHTML="버튼 이름";
+			input00.setAttribute("type", "text");
+			input00.setAttribute("class", "form-control");
+			input00.setAttribute("disabled", "disabled");
+			input00.value = btnList[i].name;
+			
+			col00.appendChild(span00);
+			col00.appendChild(input00);
+			row00.appendChild(col00);
+			btnDiv.appendChild(row00);
+				
+			let row01 = document.createElement("div")
+			let col01 = document.createElement("div")
+			let span01 = document.createElement("span");
+			let input01 = document.createElement("input");
+			
+			row01.setAttribute("class", "row mb-3");
+			col01.setAttribute("class", "col input-group");
+			span01.setAttribute("class", "input-group-text");
+			span01.innerHTML="버튼 내용";
+			input01.setAttribute("type", "text");
+			input01.setAttribute("class", "form-control");
+			input01.setAttribute("disabled", "disabled");
+			input01.value = btnList[i].url_mobile;
+			
+			col01.appendChild(span01);
+			col01.appendChild(input01);
+			row01.appendChild(col01);
+			btnDiv.appendChild(row01);
+		}
 	}
 	
 	function updateInfo(){

@@ -1,6 +1,7 @@
 package com.thereal.serviceimpl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.thereal.dao.ManageDAO;
+import com.thereal.model.dto.ButtonDTO;
 import com.thereal.model.dto.TempDetailDTO;
 import com.thereal.service.ManageService;
 import com.thereal.util.ResponseHttp;
@@ -67,6 +69,9 @@ public class ManageServiceImpl implements ManageService {
 		try {
 			TempDetailDTO detailDTO = manageDAO.getTemplateDetail(tempCode);
 			resMessage.put("tempDetail", detailDTO);
+			
+			List<ButtonDTO> buttonList = manageDAO.selectBtnList(tempCode);
+			resMessage.put("buttonList", buttonList);
 		}
 		catch (Exception e) {
 			logger.error(e.getLocalizedMessage());

@@ -39,4 +39,18 @@
 			) and
 			template_code=#{tempCode}
 	</select>
+	
+	<select id="selectBtnList" resultType="com.thereal.model.dto.ButtonDTO" parameterType="string">
+		select
+			b.name,
+			b.url_mobile
+		from
+			TB_BTN as b,
+			TB_BTN_LIST as l
+		where
+			b.seq=l.btn_seq and 
+			template_code=#{tempCode}
+		order by
+			l.btn_order asc
+	</select>
 </mapper>
