@@ -14,37 +14,66 @@
 </head>
 <body>
 <div class="wrap" style="font-size: 0.9em;">
-	<div class="regist-form">
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					<table class="table text-center table-striped align-middle">
-						<thead>
-							<tr>
-								<th class="col-1">No.</th>
-								<th class="col-3">템플릿 코드</th>
-								<th class="col-3">채널</th>
-								<th class="col-3">설명</th>
-								<th class="col-2">상세보기</th>
-							</tr>
-						</thead>
-						<tbody id="template-list">
-							
-						</tbody>
-					</table>
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<table class="table text-center table-striped align-middle">
+					<thead>
+						<tr>
+							<th class="col-1">No.</th>
+							<th class="col-3">템플릿 코드</th>
+							<th class="col-3">채널</th>
+							<th class="col-3">설명</th>
+							<th class="col-2">상세보기</th>
+						</tr>
+					</thead>
+					<tbody id="template-list">
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header" style="background-color: #252525;">
+				<div class="container text-center">
+					<h1 class="modal-title fs-5" id="modalTitle" style="color: #ffffff">상세 정보</h1>
+					<button id="modalClose" data-bs-dismiss="modal" hidden="hidden"></button>
+				</div>
+			</div>
+			<div class="modal-body">
+			</div>
+			<div class="modal-footer" style="display: block;">
+				<div class="row">
+					<div class="col-4">
+					</div>
+					<div class="col-4 btn-group">
+						<button class="btn btn-outline-primary" onclick="updateInfo();">수정</button>
+						<button class="btn btn-outline-danger" onclick="closeModal();">닫기</button>
+					</div>
+					<div class="col-4">
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
-
-
 <script type="text/javascript">
 	window.onload = function(){
 		getTemplate();
 	};
 
+	function closeModal(){
+		let close = document.querySelector("#modalClose");
+		console.log("close");
+		close.click();
+	}
+	
 	function getTemplate(){
 		$.ajax({
 			type:"post",
@@ -79,6 +108,8 @@
 			btn.setAttribute("class", "btn btn-primary btn-sm");
 			btn.setAttribute("onclick", "infoView(event);");
 			btn.setAttribute("value", result[i].template_code);
+			btn.setAttribute("data-bs-toggle", "modal");
+			btn.setAttribute("data-bs-target", "#infoModal");
 			btn.innerHTML = "상세";
 			td04.appendChild(btn);
 			
@@ -93,6 +124,14 @@
 	
 	function infoView(event){
 		console.log(event.target.value);
+		
+		
+	}
+	
+	function updateInfo(){
+		console.log("update");
+		alert("hello");
+		closeModal();
 	}
 </script>
 </body>

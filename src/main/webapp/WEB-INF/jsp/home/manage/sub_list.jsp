@@ -14,12 +14,10 @@
 </head>
 <body>
 <div class="wrap">
-	<div class="regist-form">
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					sub_manage
-				</div>
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				sub_manage
 			</div>
 		</div>
 	</div>
