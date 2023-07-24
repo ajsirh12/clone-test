@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0/*EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="manageMapper">
+	<select id="getTemplateList" resultType="com.thereal.model.dto.TempListDTO">
+		select
+			t.template_code,
+			t.comment,
+			c.seq,
+			c.channel_name
+		from
+			TB_TEMPLATE as t,
+			TB_CHANNEL as c
+		where
+			t.channel_seq = c.seq;
+	</select>
+</mapper>
