@@ -25,4 +25,9 @@ public class ManageController {
 	public ResponseEntity getTemplateList(HttpServletRequest request, HttpSession session) {
 		return manageService.getTemplateList(request, session);
 	}
+	
+	@RequestMapping(value = "/template/detail", method = RequestMethod.POST)
+	public ResponseEntity getTemplateDetail(HttpServletRequest request, HttpSession session) {
+		return manageService.getTemplateDetail(request, session);
+	}
 }

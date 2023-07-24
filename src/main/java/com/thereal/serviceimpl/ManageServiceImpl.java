@@ -1,7 +1,6 @@
 package com.thereal.serviceimpl;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.thereal.dao.ManageDAO;
-import com.thereal.model.dto.PhoneDTO;
+import com.thereal.model.dto.TempDetailDTO;
 import com.thereal.service.ManageService;
 import com.thereal.util.ResponseHttp;
 
@@ -38,6 +37,36 @@ public class ManageServiceImpl implements ManageService {
 		
 		try {
 			resMessage.put("templateList", manageDAO.getTemplateList());
+		}
+		catch (Exception e) {
+			logger.error(e.getLocalizedMessage());
+			return ResponseHttp.failed(resMessage);
+		}
+		
+		return ResponseHttp.ok(resMessage);
+	}
+	
+	@Override
+	public ResponseEntity getTemplateDetail(HttpServletRequest request, HttpSession session) {
+		Map<String, Object> resMessage = new HashMap<String, Object>();
+		
+		if(!loginService.isLogin(session)) {
+			return ResponseHttp.status(resMessage, HttpStatus.UNAUTHORIZED);
+		}
+		
+		String tempCode;
+		
+		try {
+			tempCode = request.getParameter("templateCode");
+		}
+		catch (Exception e) {
+			logger.error(e.getLocalizedMessage());
+			return ResponseHttp.failed(resMessage);
+		}
+		
+		try {
+			TempDetailDTO detailDTO = manageDAO.getTemplateDetail(tempCode);
+			resMessage.put("tempDetail", detailDTO);
 		}
 		catch (Exception e) {
 			logger.error(e.getLocalizedMessage());

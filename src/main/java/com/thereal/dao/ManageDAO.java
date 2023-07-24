@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.thereal.model.dto.TempDetailDTO;
 import com.thereal.model.dto.TempListDTO;
 import com.thereal.util.SqlSessionSelector;
 
@@ -30,5 +31,10 @@ private static final Logger logger = LogManager.getLogger(ManageDAO.class);
 	public List<TempListDTO> getTemplateList(){
 		init();
 		return sqlSession.selectList(namespace + ".getTemplateList");
+	}
+	
+	public TempDetailDTO getTemplateDetail(String tempCode) {
+		init();
+		return sqlSession.selectOne(namespace + ".getTemplateDetail", tempCode);
 	}
 }
