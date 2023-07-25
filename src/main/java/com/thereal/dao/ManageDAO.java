@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.thereal.model.dto.ButtonDTO;
 import com.thereal.model.dto.TempDetailDTO;
 import com.thereal.model.dto.TempListDTO;
+import com.thereal.model.dto.TempUpdateDTO;
 import com.thereal.util.SqlSessionSelector;
 
 @Repository("manageDAO")
@@ -42,5 +43,10 @@ private static final Logger logger = LogManager.getLogger(ManageDAO.class);
 	public List<ButtonDTO> selectBtnList(String tempCode){
 		init();
 		return sqlSession.selectList(namespace + ".selectBtnList", tempCode);
+	}
+	
+	public int updateTemplate(TempUpdateDTO dto) {
+		init();
+		return sqlSession.insert(namespace + ".updateTemplate", dto);
 	}
 }

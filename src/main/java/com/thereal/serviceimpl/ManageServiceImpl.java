@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.thereal.dao.ManageDAO;
 import com.thereal.model.dto.ButtonDTO;
 import com.thereal.model.dto.TempDetailDTO;
+import com.thereal.model.dto.TempUpdateDTO;
 import com.thereal.service.ManageService;
 import com.thereal.util.ResponseHttp;
 
@@ -72,6 +73,39 @@ public class ManageServiceImpl implements ManageService {
 			
 			List<ButtonDTO> buttonList = manageDAO.selectBtnList(tempCode);
 			resMessage.put("buttonList", buttonList);
+		}
+		catch (Exception e) {
+			logger.error(e.getLocalizedMessage());
+			return ResponseHttp.failed(resMessage);
+		}
+		
+		return ResponseHttp.ok(resMessage);
+	}
+	
+	@Override
+	public ResponseEntity updateTemplate(HttpServletRequest request, HttpSession session) {
+		Map<String, Object> resMessage = new HashMap<String, Object>();
+		
+		if(!loginService.isLogin(session)) {
+			return ResponseHttp.status(resMessage, HttpStatus.UNAUTHORIZED);
+		}
+		
+		TempUpdateDTO dto = null;
+		
+		try {
+			dto =TempUpdateDTO.builder()
+					.comment(request.getParameter("comment"))
+					.phone(request.getParameter("phone"))
+					.template_code(request.getParameter("templateCode"))
+					.build();
+		}
+		catch (Exception e) {
+			logger.error(e.getLocalizedMessage());
+			return ResponseHttp.failed(resMessage);
+		}
+		
+		try {
+			manageDAO.updateTemplate(dto);
 		}
 		catch (Exception e) {
 			logger.error(e.getLocalizedMessage());

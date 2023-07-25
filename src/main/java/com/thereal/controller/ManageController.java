@@ -30,4 +30,9 @@ public class ManageController {
 	public ResponseEntity getTemplateDetail(HttpServletRequest request, HttpSession session) {
 		return manageService.getTemplateDetail(request, session);
 	}
+	
+	@RequestMapping(value = "/template/update", method = RequestMethod.POST)
+	public ResponseEntity updateTemplate(HttpServletRequest request, HttpSession session) {
+		return manageService.updateTemplate(request, session);
+	}
 }

@@ -294,8 +294,29 @@
 	
 	function updateInfo(){
 		console.log("update");
-		alert("hello");
 		closeModal();
+		
+		let jsonData;
+		let object = new Object();
+		
+		let phone = document.querySelector("#phone-select");
+		let comment = document.querySelector("#comment");
+		let templateCode = document.querySelector("#templateCode");
+		
+		jsonData = JSON.stringify(object);
+		
+		$.ajax({
+			type:"post",
+			url:"/ajax/manage/template/update",
+			data:{phone:phone.value, comment:comment.value, templateCode:templateCode.value},
+			success:function(result){
+				location.href = "/admin/manage/template";
+			},
+			error:function(request, status, error){
+				console.log(request.responseText);
+				console.log(error);
+			}
+		});
 	}
 	
 	function getPhoneList(){

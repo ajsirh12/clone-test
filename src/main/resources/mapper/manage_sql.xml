@@ -53,4 +53,14 @@
 		order by
 			l.btn_order asc
 	</select>
+	
+	<update id="updateTemplate" parameterType="com.thereal.model.dto.TempUpdateDTO">
+		update
+			TB_TEMPLATE
+		set
+			phone=#{phone},
+			comment=#{comment}
+		where
+			template_code=#{template_code}
+	</update>
 </mapper>
