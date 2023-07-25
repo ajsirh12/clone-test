@@ -152,7 +152,7 @@
 				console.log(error);
 				subId.removeAttribute("disabled");
 				check.removeAttribute("disabled");
-				alert("Sub-ID 오류");
+				alert(request.responseJSON.message);
 			}
 		});
 	}

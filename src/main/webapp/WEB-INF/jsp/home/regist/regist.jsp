@@ -444,7 +444,7 @@
 				console.log(error);
 				temp.removeAttribute("disabled");
 				check.removeAttribute("disabled");
-				alert("Template 오류");
+				alert(request.responseJSON.message);
 			}
 		});
 	}

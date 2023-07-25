@@ -231,6 +231,7 @@ public class RegistServiceImpl implements RegistService {
 		
 		try {
 			if(registDAO.checkSubId(subId) != 0) {
+				resMessage.put("message", "중복");
 				return ResponseHttp.failed(resMessage);
 			}
 		}
@@ -287,6 +288,7 @@ public class RegistServiceImpl implements RegistService {
 		
 		try {
 			if(registDAO.checkTemplate(temp) != 0) {
+				resMessage.put("message", "중복");
 				return ResponseHttp.failed(resMessage);
 			}
 		}
