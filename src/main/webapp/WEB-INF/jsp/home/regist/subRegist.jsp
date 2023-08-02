@@ -101,7 +101,7 @@
 			let option = document.createElement("option");
 			
 			option.setAttribute("value", templateList[i].msg);
-			option.innerHTML=templateList[i].template_code;
+			option.innerHTML=templateList[i].template_code + "/" + templateList[i].comment;
 			select.appendChild(option);
 		}
 	}

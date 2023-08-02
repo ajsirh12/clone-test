@@ -9,4 +9,5 @@ public class TemplateDTO {
 	private String channel;
 	private String phone;
 	private String msg;
+	private String comment;
 }

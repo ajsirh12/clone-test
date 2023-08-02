@@ -255,7 +255,7 @@ public class RegistServiceImpl implements RegistService {
 		try {
 			subDTO = SubDTO.builder()
 					.sub_id(vo.getSubId())
-					.template_code(vo.getTemplateCode())
+					.template_code(vo.getTemplateCode().split("/")[0])
 					.comment(vo.getComment())
 					.build();
 		}
