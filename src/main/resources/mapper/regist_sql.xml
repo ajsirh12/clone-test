@@ -30,7 +30,8 @@
 	<select id="ajaxTemplates" resultType="com.thereal.model.dto.TemplateDTO">
 		select
 			template_code,
-			msg
+			msg,
+			comment
 		from
 			TB_TEMPLATE;			
 	</select>
