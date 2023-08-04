@@ -33,7 +33,9 @@
 			msg,
 			comment
 		from
-			TB_TEMPLATE;			
+			TB_TEMPLATE
+		order by 
+			registDate;
 	</select>
 	
 	<select id="selectChannel" parameterType="com.thereal.model.vo.ChannelVO" resultType="int">
