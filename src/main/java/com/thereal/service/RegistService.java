@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.ResponseEntity;
 
+import com.thereal.model.vo.RegistSubVO;
 import com.thereal.model.vo.RegistVO;
 
 public interface RegistService {
@@ -13,4 +14,11 @@ public interface RegistService {
 	ResponseEntity ajaxChannels(HttpServletRequest request, HttpSession session);
 	ResponseEntity ajaxPhones(HttpServletRequest request, HttpSession session);
 	ResponseEntity ajaxButtons(HttpServletRequest request, HttpSession session);
+	
+	ResponseEntity ajaxTemplates(HttpServletRequest request, HttpSession session);
+	
+	ResponseEntity ajaxCheckSub(HttpServletRequest request, HttpSession session);
+	ResponseEntity ajaxRegistSub(RegistSubVO vo, HttpSession session);
+	
+	ResponseEntity ajaxCheckTemp(HttpServletRequest request, HttpSession session);
 }

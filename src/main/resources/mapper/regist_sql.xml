@@ -27,6 +27,17 @@
 			TB_BTN;
 	</select>
 	
+	<select id="ajaxTemplates" resultType="com.thereal.model.dto.TemplateDTO">
+		select
+			template_code,
+			msg,
+			comment
+		from
+			TB_TEMPLATE
+		order by 
+			registDate;
+	</select>
+	
 	<select id="selectChannel" parameterType="com.thereal.model.vo.ChannelVO" resultType="int">
 		select
 			seq
@@ -48,4 +59,112 @@
 			#{sender_key}
 		);
 	</insert>
+	
+	<insert id="insertTemplate" parameterType="com.thereal.model.entity.TemplateEntity">
+		insert into
+			TB_TEMPLATE(
+				template_code,
+				channel_seq,
+				msg,
+				phone,
+				comment
+			)
+		values(
+			#{template_code},
+			#{channel_seq},
+			#{msg},
+			#{phone},
+			#{comment}
+		)
+	</insert>
+	
+	<insert id="insertLMS" parameterType="com.thereal.model.entity.LmsEntity">
+		insert into
+			TB_LMS(
+				template_code,
+				failback_title,
+				failback_msg,
+				failback_id
+			)
+		values(
+			#{template_code},
+			#{failback_title},
+			#{failback_msg},
+			#{failback_id}
+		)
+	</insert>
+	
+	<select id="selectBtnSeq" parameterType="com.thereal.model.entity.BtnEntity" resultType="int">
+		select
+			seq
+		from
+			TB_BTN
+		where
+			name=#{name} and
+			url_mobile=#{mobile} and
+			url_pc=#{pc} and
+			url_lms=#{lms}
+	</select>
+	
+	<insert id="insertBtn" parameterType="com.thereal.model.entity.BtnEntity">
+		insert into
+			TB_BTN(
+				name,
+				url_mobile,
+				url_pc,
+				url_lms
+			)
+		values(
+			#{name},
+			#{mobile},
+			#{pc},
+			#{lms}
+		)
+	</insert>
+	
+	<insert id="insertBtnList" parameterType="com.thereal.model.entity.BtnListEntity">
+		insert into
+			TB_BTN_LIST(
+				template_code,
+				btn_seq,
+				btn_order
+			)
+		values(
+			#{template_code},
+			#{btn_seq},
+			#{btn_order}
+		)
+	</insert>
+	
+	<select id="checkSubId" parameterType="string" resultType="int">
+		select
+			count(sub_id)
+		from
+			TB_SUB_ID
+		where
+			sub_id=#{subId}
+	</select>
+	
+	<insert id="insertSubId" parameterType="com.thereal.model.dto.SubDTO">
+		insert into
+			TB_SUB_ID(
+				sub_id,
+				template_code,
+				comment
+			)
+		values(
+			#{sub_id},
+			#{template_code},
+			#{comment}
+		)
+	</insert>
+	
+	<select id="checkTemplate" parameterType="string" resultType="int">
+		select
+			count(template_code)
+		from
+			TB_TEMPLATE
+		where
+			template_code=#{tempCode}
+	</select>
 </mapper>

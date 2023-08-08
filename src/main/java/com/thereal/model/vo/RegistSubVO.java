@@ -1,7 +1,8 @@
-package com.thereal.model.entity;
+package com.thereal.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,11 +10,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TemplateEntity {
-	private String template_code;
-	private int channel_seq;
-	private String msg;
-	private String type;
-	private String phone;
+public class RegistSubVO {
+	private String templateCode;
+	private String subId;
 	private String comment;
 }

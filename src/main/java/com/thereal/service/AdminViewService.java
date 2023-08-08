@@ -12,4 +12,8 @@ public interface AdminViewService {
 	public ModelAndView getStatistic(HttpServletRequest request, HttpSession session);
 	
 	ModelAndView getRegist(HttpServletRequest request, HttpSession session);
+	ModelAndView getRegistSub(HttpServletRequest request, HttpSession session);
+	
+	ModelAndView getManageTemplate(HttpServletRequest request, HttpSession session);
+	ModelAndView getManageSub(HttpServletRequest request, HttpSession session);
 }

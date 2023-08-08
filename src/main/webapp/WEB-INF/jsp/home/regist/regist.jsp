@@ -8,7 +8,6 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css?ver=1.2">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/modal.css?ver=1.1">
 
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -22,8 +21,7 @@
 					<label for="formGroupExampleInput" class="form-label"><b>채널선택</b></label>
 					<div class="row mb-3">
 						<div class="col">
-							<select id="channel-select" class="form-select" onchange="channel();">
-							</select>
+							<select id="channel-select" class="form-select" onchange="channel();"></select>
 						</div>
 					</div>
 					<div class="row mb-3">
@@ -51,8 +49,11 @@
 				<div class="col">
 					<label for="formGroupExampleInput" class="form-label"><b>템플릿</b></label>
 					<div class="row mb-3">
-						<div class="col">
+						<div class="col-10">
 							<input type="text" class="form-control" id="template-code" name="template-code" placeholder="Template Code">
+						</div>
+						<div class="col-2 text-center">
+							<button class="btn btn-outline-primary" id="dup-btn" onclick="checkTemplate();">중복 체크</button>
 						</div>
 					</div>
 					<div class="row mb-3">
@@ -92,6 +93,7 @@
 </div>
 <script type="text/javascript">
 	let btnList = new Array();
+	var duplicated = true;
 	
 	window.onload = function(){
 		getChannelList();
@@ -100,50 +102,56 @@
 	};
 
 	function regist(){
-		let jsonData;
-		let object = new Object();
-		
-		let channel = document.querySelector("#channel");
-		let senderKey = document.querySelector("#sender-key");
-		let phone = document.querySelector("#phone-select");
-		let templateCode = document.querySelector("#template-code");
-		let templateMsg = document.querySelector("#template-msg");
-		let lmsTitle = document.querySelector("#lms-title");
-		let comment = document.querySelector("#comment");
-		
-		let btnList = new Array();
-		let btnTitle = document.querySelectorAll(".btn-title");
-		let btnMsg = document.querySelectorAll(".btn-msg");
-		let status = document.querySelectorAll(".status");
-		for(let i=0;i<btnTitle.length; i++){
-			console.log(btnTitle[i].value + " : " + btnMsg[i].value);
-			let temp = {'name':btnTitle[i].value, 'url':btnMsg[i].value, 'status':status[i].value};
-			btnList.push(temp);
+		if(duplicated){
+			alert("중복체크를 해주세요.");
+			return;
 		}
-		
-		object.channelName = channel.value;
-		object.senderKey = senderKey.value;
-		object.phone = phone.value;
-		object.templateCode = templateCode.value;
-		object.lmsTitle= lmsTitle.value;
-		object.msg = templateMsg.value;
-		object.comment = comment.value;
-		object.btnList = btnList;
-		jsonData = JSON.stringify(object);
-		
-		$.ajax({
-			type:"post",
-			url:"/ajax/regist",
-			contentType: "application/json",
-			data:jsonData,
-			success:function(result){
-				// location.href="/admin/regist";
-			},
-			error:function(request, status, error){
-				console.log(request.responseText);
-				console.log(error);
-			}		
-		});
+		else{
+			let jsonData;
+			let object = new Object();
+			
+			let channel = document.querySelector("#channel");
+			let senderKey = document.querySelector("#sender-key");
+			let phone = document.querySelector("#phone-select");
+			let templateCode = document.querySelector("#template-code");
+			let templateMsg = document.querySelector("#template-msg");
+			let lmsTitle = document.querySelector("#lms-title");
+			let comment = document.querySelector("#comment");
+			
+			let btnList = new Array();
+			let btnTitle = document.querySelectorAll(".btn-title");
+			let btnMsg = document.querySelectorAll(".btn-msg");
+			let status = document.querySelectorAll(".status");
+			for(let i=0;i<btnTitle.length; i++){
+				let temp = {'name':btnTitle[i].value, 'url':btnMsg[i].value, 'status':status[i].value};
+				btnList.push(temp);
+			}
+			
+			object.channelName = channel.value;
+			object.senderKey = senderKey.value;
+			object.phone = phone.value;
+			object.templateCode = templateCode.value;
+			object.lmsTitle= lmsTitle.value;
+			object.msg = templateMsg.value;
+			object.comment = comment.value;
+			object.btnList = btnList;
+			jsonData = JSON.stringify(object);
+			
+			$.ajax({
+				type:"post",
+				url:"/ajax/regist",
+				contentType: "application/json",
+				data:jsonData,
+				success:function(result){
+					alert("등록 완료");
+					location.href="/admin/main";
+				},
+				error:function(request, status, error){
+					console.log(request.responseText);
+					console.log(error);
+				}		
+			});	
+		}
 	};
 	
 	function getChannelList(){
@@ -263,6 +271,9 @@
 		let row20 = document.createElement("div");
 		row20.setAttribute("class", "row mb-3 rowrow");
 		
+		let col20 = document.createElement("div");
+		col20.setAttribute("class", "col");
+		
 		let row10 = document.createElement("div");
 		row10.setAttribute("class", "row mb-3");
 		
@@ -302,7 +313,7 @@
 		let col03 = document.createElement("div");
 		col03.setAttribute("class", "col-1");
 		let remove = document.createElement("button");
-		remove.setAttribute("class", "btn btn-outline-danger btn-sm");
+		remove.setAttribute("class", "btn btn-outline-danger");
 		remove.setAttribute("onclick", "removeBtn(event)");
 		remove.innerHTML = "-";
 		col03.appendChild(remove);
@@ -317,8 +328,10 @@
 		row00.appendChild(col03);
 		row00.appendChild(hidden);
 		
-		row20.appendChild(row10);
-		row20.appendChild(row00);
+		col20.appendChild(row10);
+		col20.appendChild(row00);
+		
+		row20.appendChild(col20);
 		
 		btnDiv.appendChild(row20);
 	};
@@ -345,7 +358,7 @@
 		let optionStart = document.createElement("option");
 		optionStart.setAttribute("hidden", "hidden");
 		optionStart.setAttribute("selected", "selected");
-		optionStart.innerHTML = "Select Phone";
+		optionStart.innerHTML = "Select Button";
 		select.appendChild(optionStart);
 		
 		for(let i=0; i<btnList.length; i++){
@@ -366,8 +379,6 @@
 	function button(event) {
 		const selectedValue = event.target.value;
 		const selectedId = event.target.options[event.target.selectedIndex].id;
-		
-		console.log(event.target.options[event.target.selectedIndex].value);
 		
 		const btnTitleInput = event.target.closest(".row").nextElementSibling.querySelector(".btn-title");
 		const btnMsgInput = event.target.closest(".row").nextElementSibling.querySelector(".btn-msg");
@@ -405,6 +416,37 @@
 		if(row20){
 			row20.remove();
 		}
+	}
+	
+	function checkTemplate(){
+		let temp = document.querySelector("#template-code");
+		let check = document.querySelector("#dup-btn");
+				
+		if(temp.value === ''){
+			alert("Template 빈칸");
+			return;
+		}
+		
+		temp.setAttribute("disabled", "disabled");
+		check.setAttribute("disabled", "disabled");
+		
+		$.ajax({
+			type:"post",
+			url:"/ajax/check/templates",
+			data:{temp:temp.value},
+			success:function(result){
+				duplicated = false;
+				check.setAttribute("class", "btn btn-primary");
+				check.innerHTML = "사용 가능";
+			},
+			error:function(request, status, error){
+				console.log(request.responseText);
+				console.log(error);
+				temp.removeAttribute("disabled");
+				check.removeAttribute("disabled");
+				alert(request.responseJSON.message);
+			}
+		});
 	}
 </script>
 </body>

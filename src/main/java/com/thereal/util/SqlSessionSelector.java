@@ -27,4 +27,25 @@ public class SqlSessionSelector {
 			return this.sqlSession;
 		}
 	}
+	
+	public SqlSessionTemplate getSessiont(String session) {
+		if(chkDev.isDev()) {
+			if("CJ".equals(session.toUpperCase())) {
+				return this.sqlSessionTest;
+			}
+			else {
+				logger.error("This session is null");
+				return null;
+			}
+		}
+		else {
+			if("CJ".equals(session.toUpperCase())) {
+				return this.sqlSession;
+			}			
+			else {
+				logger.error("This session is null");
+				return null;
+			}
+		}
+	}
 }

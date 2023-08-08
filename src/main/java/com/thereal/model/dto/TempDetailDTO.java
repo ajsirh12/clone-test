@@ -1,4 +1,4 @@
-package com.thereal.model.entity;
+package com.thereal.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,13 +7,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class TemplateEntity {
+@NoArgsConstructor
+public class TempDetailDTO {
 	private String template_code;
-	private int channel_seq;
-	private String msg;
-	private String type;
-	private String phone;
 	private String comment;
+	private String msg;
+	private String phone;
+	private String channel_name;
+	private String sender_key;
 }

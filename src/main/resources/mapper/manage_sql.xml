@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0/*EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="manageMapper">
+	<select id="getTemplateList" resultType="com.thereal.model.dto.TempListDTO">
+		select
+			t.template_code,
+			t.comment,
+			c.seq,
+			c.channel_name
+		from
+			TB_TEMPLATE as t,
+			TB_CHANNEL as c
+		where
+			t.channel_seq = c.seq;
+	</select>
+	
+	<select id="getTemplateDetail" resultType="com.thereal.model.dto.TempDetailDTO" parameterType="string">
+		select
+			t.template_code,
+			t.comment,
+			t.msg,
+			t.phone,
+			c.channel_name,
+			c.sender_key
+		from
+			TB_TEMPLATE as t,
+			TB_CHANNEL as c
+		where
+			c.seq=(
+				select
+					channel_seq
+				from 
+					TB_TEMPLATE
+				where 
+					template_code=#{tempCode}
+			) and
+			template_code=#{tempCode}
+	</select>
+	
+	<select id="selectBtnList" resultType="com.thereal.model.dto.ButtonDTO" parameterType="string">
+		select
+			b.name,
+			b.url_mobile
+		from
+			TB_BTN as b,
+			TB_BTN_LIST as l
+		where
+			b.seq=l.btn_seq and 
+			template_code=#{tempCode}
+		order by
+			l.btn_order asc
+	</select>
+	
+	<update id="updateTemplate" parameterType="com.thereal.model.dto.TempUpdateDTO">
+		update
+			TB_TEMPLATE
+		set
+			phone=#{phone},
+			comment=#{comment}
+		where
+			template_code=#{template_code}
+	</update>
+</mapper>
